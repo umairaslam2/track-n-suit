@@ -9,6 +9,7 @@ const Herosection = () => {
             <Swiper
                 navigation={true}
                 modules={[Navigation, Pagination, A11y, Autoplay]}
+                id='hero-section'
                 style={{
                     '--swiper-navigation-size': '20px',
 
