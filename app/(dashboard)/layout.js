@@ -1,5 +1,5 @@
 import {  Footer } from "@/components"
-import Header from '@/components/Header/header'
+import Header from '@/components/Header/Header'
 import "../globals.css";
 import { Providers } from "@/GlobalRedux/Provider";
 import { AnimatePresence } from "framer-motion";
