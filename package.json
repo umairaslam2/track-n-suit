@@ -1,0 +1,42 @@
+{
+  "name": "mystrical-fragnance",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@material-tailwind/react": "^2.1.10",
+    "@reduxjs/toolkit": "^2.5.0",
+    "axios": "^1.7.9",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.17.0",
+    "lqip-modern": "^2.2.1",
+    "next": "14.2.20",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.4.0",
+<<<<<<< HEAD
+    "react-loading-skeleton": "^3.5.0",
+    "react-redux": "^9.2.0",
+    "react-toastify": "^11.0.2",
+=======
+    "react-redux": "^9.2.0",
+    "react-scroll": "^1.9.0",
+    "react-toastify": "^11.0.3",
+>>>>>>> e4235bbd86b027a91d0ac511412f9d9a6740b37a
+    "redux-persist": "^6.0.0",
+    "swiper": "^11.1.15",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.20",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}

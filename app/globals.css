@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #5E3102;
+  }
+
+  .truncate-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .truncate-title3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .truncate-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 6; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+  }
+  /*  pagination for swapper */
+  .swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-weight: bold;
+}
+
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+
+/*  slider marque style */
+/* <style> */
+  .slider {
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    background-color: #0b0b0b;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+
+  .slider-track {
+    display: flex;
+    width: calc(250px * 10);
+    animation: scroll 20s linear infinite;
+  }
+
+  .slide {
+    width: 250px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+/* </style> */
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-slide-up {
+  animation: slideUp 1s ease-in-out;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
