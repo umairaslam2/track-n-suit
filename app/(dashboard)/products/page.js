@@ -1,6 +1,6 @@
 import React from 'react'
-import ProductClient from './ProductClient'
 import Head from 'next/head';
+import ProductList from '@/components/Products/productCard';
 const AllProduct = () => {
   
   return (
@@ -19,7 +19,7 @@ const AllProduct = () => {
         <meta property="og:url" content="https://mysticalfragrance.com/products" />
         <meta property="og:type" content="product" />
       </Head>
-    <ProductClient/>
+    <ProductList/>
     </>
   )
 }
