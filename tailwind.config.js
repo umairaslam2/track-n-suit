@@ -8,6 +8,9 @@ module.exports = withMT({
   ],
     theme: {
     extend: {
+      backgroundImage: {
+        'texture': "url('/images/texture.jpg')",
+      },
       colors: {
         secondary:"#5E3102",
         black:"#1B1931",
