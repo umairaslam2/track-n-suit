@@ -6,7 +6,7 @@ export const Title = ({title,Subtitle}) => {
     <>
     <span className='text-secondary flex capitalize items-center gap-4  py-4 px-2 rounded-lg'>
         <span className=' bg-secondary text-secondary  rounded-lg py-6 px-4 myfont'></span>
-       <h1>{title}</h1> 
+       <h1 className='flex justify-center items-center '>{title}</h1> 
         </span>
     <div className='flex justify-between items-center myfont'>
     <span>
