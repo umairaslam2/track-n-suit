@@ -46,7 +46,7 @@ const HomeClientPage = ({data}) => {
     <Occassion/>
    </span>
    <span className='!py-28'>
-   {/* <Title/> */}
+   <Title/>
     <NewArrival/>
    </span>
      
