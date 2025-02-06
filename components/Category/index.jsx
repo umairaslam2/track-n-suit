@@ -27,7 +27,7 @@ const Category = () => {
     {
     shopItems.map((product, index)=>(
         <>
-        <div  key={index} className="relative w-40 h-40 md:w-52 md:h-52 hover:cursor-pointer
+        <div  key={index} className="relative w-60 h-60 md:w-72 md:h-72 hover:cursor-pointer
          rounded-full bg-gray-200 overflow-hidden group">
           <div className="absolute left-0 w-1/2 h-full overflow-hidden bg-black opacity-70 transition-all duration-700 group-hover:translate-x-[-100%]">
           </div>
