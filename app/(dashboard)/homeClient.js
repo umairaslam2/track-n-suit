@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import ProductList from '@/components/Products/productCard'
 import Occassion from '@/components/Occassion'
 import Subscribe from '@/components/Occassion/NewArrival'
+import Category from '@/components/Category'
 // import HomePageSkeleton from './homePageSkeleton'
 
 const HomeClientPage = ({data}) => {
@@ -29,7 +30,10 @@ const HomeClientPage = ({data}) => {
     </motion.div>
     <div className="relative min-h-screen pt-36 !pb-40">
      <span className="bg-[url('/Images/texture.jpeg')]  absolute inset-0 bg-cover bg-no-repeat bg-center  h-full w-full"></span>
-    <div className="relative z-10">  
+    <div className="relative z-10"> 
+    <Title title={"Category"} subTitle={"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit."}/>
+
+      <Category/> 
     <Title title={"Latest Product"} subTitle={"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit."}/>
     <ProductList/>
     </div>
@@ -39,7 +43,6 @@ const HomeClientPage = ({data}) => {
    </span>
    <div className="relative h-screen overflow-hidden pt-20 ">
      <span className="bg-[url('/Images/texture.jpeg')]  absolute inset-0 bg-cover bg-no-repeat bg-center  h-full w-full"></span>
-    
     <span className='relative z-10  '>
    <Title title={"Subscribe"}/>
     <Subscribe/>

@@ -7,7 +7,7 @@ const Subscribe = () => {
       <div
         className="absolute top-0 left-0 opacity-75 w-full h-full bg-contain bg-center"
         style={{
-          backgroundImage: 'url("https://mangooutfit.com/wp-content/uploads/2024/11/tracksuit-cov-web-scaled.jpg")',
+          backgroundImage: 'url("https://www.edrio.com/cdn/shop/files/Tracksuits_Mobile_Size.jpg?v=10356091717680091805")',
           backgroundAttachment: 'fixed',  // This keeps the background fixed
           backgroundPosition: 'center',
           backgroundSize: 'cover',
