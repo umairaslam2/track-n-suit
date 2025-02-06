@@ -136,7 +136,7 @@ export  const Footer = () => {
       </div>
     </div>
     <p className="text-sm text-gray-800 mt-8">
-     <a href='/'> © Mystical fragrance.</a> All rights reserved.
+     <a href='/'> © TracknSuit.</a> All rights reserved.
     </p>
   </div>
 </footer>

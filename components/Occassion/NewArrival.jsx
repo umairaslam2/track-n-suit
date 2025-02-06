@@ -1,27 +1,40 @@
-export default function NewArrival() {
-    return (
-      <section className="flex w-full h-[50vh]">
-       <div
-    className="relative bg-gray-400 text-white text-center py-24"
-    style={{
-      backgroundImage: "url('https://images.pexels.com/photos/7405392/pexels-photo-7405392.jpeg?auto=compress&cs=tinysrgb&w=600')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundAttachment: "fixed",
-      backgroundRepeat:"no-repeat",
-      height: "350px",
-      width: "100%",
-    }}
-  >
-    <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-    <div className="relative z-0 text-white flex flex-col justify-center items-center h-full animate-fade-in">
-      <h1 className="text-4xl font-bold text-white">subscribe</h1>
-      <p className="mt-2 text-xl text-white">
-        Discover the essence of elegance with Mystical Fragrances.
-      </p>
+import React from 'react';
+
+const Subscribe = () => {
+  return (
+    <div className="relative h-screen overflow-hidden">
+      {/* Parallax Background */}
+      <div
+        className="absolute top-0 left-0 opacity-75 w-full h-full bg-contain bg-center"
+        style={{
+          backgroundImage: 'url("https://mangooutfit.com/wp-content/uploads/2024/11/tracksuit-cov-web-scaled.jpg")',
+          backgroundAttachment: 'fixed',  // This keeps the background fixed
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat:"no-repeat",
+          zIndex: -1,
+        }}
+      ></div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col justify-center items-center  text-center h-full px-6">
+        <h1 className="text-5xl md:text-6xl font-bold mb-4  outline-dashed  ">Subscribe to Our Newsletter</h1>
+        <p className="text-lg md:text-2xl mb-8 font-black">Stay updated with the latest news and offers!</p>
+
+        {/* Subscription Form */}
+        <div className="flex justify-center items-center space-x-4">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="p-3 rounded-md text-black focus:outline-none"
+          />
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md">
+            Subscribe
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-      </section>
-    );
-  }
-  
+  );
+};
+
+export default Subscribe;

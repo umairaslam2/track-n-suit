@@ -23,8 +23,8 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const menuItemsLeft = ["home", "Products", "About", "Contact", "blog", "Login"];
-  const menuItemsRight = ["cart (0)", "search"];
+  const menuItemsLeft = ["Home", "Products", "About", "Contact", "Blog", "Login"];
+  const menuItemsRight = ["Cart (0)", "Search"];
 
   return (
     <nav
@@ -58,7 +58,7 @@ const Header = () => {
 
         {/* Mobile Menu Icon */}
         <div
-          className="md:hidden text-2xl cursor-pointer"
+          className="md:hidden text-2xl text-white cursor-pointer"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? <FiX /> : <FiMenu />}

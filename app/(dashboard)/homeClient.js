@@ -2,20 +2,12 @@
 import { useRouter } from 'next/navigation'
 import React, { Suspense, useEffect } from 'react'
 import Herosection from '@/components/Herosection/herosection'
-import {   Arrival,    AllHomeProduct } from '@/components'
 import Title from '@/components/Title/title'
-import MenCategory from '@/components/TopProducts/MenCategory'
-import WomenCategory from '@/components/TopProducts/WomenCategory'
-import OtherCategory from '@/components/TopProducts/OtherCategory'
 import { useDispatch, useSelector } from 'react-redux'
-import TesterCategory from '@/components/TopProducts/TesterCategory'
-import Link from 'next/link'
 import { motion } from "framer-motion";
-import { UpperFooter } from '@/components/Footer/UpperFooter'
-import ProductCard from '@/components/Products/productCard'
 import ProductList from '@/components/Products/productCard'
 import Occassion from '@/components/Occassion'
-import NewArrival from '@/components/Occassion/NewArrival'
+import Subscribe from '@/components/Occassion/NewArrival'
 // import HomePageSkeleton from './homePageSkeleton'
 
 const HomeClientPage = ({data}) => {
@@ -35,20 +27,24 @@ const HomeClientPage = ({data}) => {
       exit={{ opacity: 0 }}>
       <Herosection/>
     </motion.div>
-    <div className="relative min-h-screen pt-20 !pb-28">
-     <span className="bg-[url('/Images/texture.jpg')] absolute inset-0 bg-cover bg-center  h-full w-full"></span>
+    <div className="relative min-h-screen pt-36 !pb-40">
+     <span className="bg-[url('/Images/texture.jpeg')]  absolute inset-0 bg-cover bg-no-repeat bg-center  h-full w-full"></span>
     <div className="relative z-10">  
-      <Title/>
+    <Title title={"Latest Product"} subTitle={"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit."}/>
     <ProductList/>
     </div>
     </div>
    <span className='h-full pb-28 w-full'>
     <Occassion/>
    </span>
-   <span className='!py-28'>
-   <Title/>
-    <NewArrival/>
+   <div className="relative h-screen overflow-hidden pt-20 ">
+     <span className="bg-[url('/Images/texture.jpeg')]  absolute inset-0 bg-cover bg-no-repeat bg-center  h-full w-full"></span>
+    
+    <span className='relative z-10  '>
+   <Title title={"Subscribe"}/>
+    <Subscribe/>
    </span>
+    </div>
      
     </span>
     </>
@@ -56,19 +52,3 @@ const HomeClientPage = ({data}) => {
 }
 
 export default HomeClientPage
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, // Time delay between items
-      duration: 0.5,
-    },
-  },
-  exit: { opacity: 0 },
-}
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
-};
