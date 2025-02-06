@@ -67,6 +67,7 @@ const Header = () => {
 
       {/* Mobile Side Drawer Menu */}
       <div
+      id="hero-section"
         className={`fixed top-0 left-0 h-full bg-white shadow-lg z-30 transform ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out w-64 md:hidden`}
