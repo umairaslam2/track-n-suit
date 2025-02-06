@@ -1,24 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
+  const pathname = usePathname();
   const [isFixed, setIsFixed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const heroSection = document.getElementById("hero-section");
-      if (heroSection) {
-        const heroHeight = heroSection.offsetHeight;
-        setIsFixed(window.scrollY > heroHeight);
-      }
-    };
+    if (pathname === "/") {
+      const handleScroll = () => {
+        const heroSection = document.getElementById("hero-section");
+        if (heroSection) {
+          const heroHeight = heroSection.offsetHeight;
+          setIsFixed(window.scrollY > heroHeight);
+        }
+      };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    } else {
+      setIsFixed(true); // Always fixed and solid background for other pages
+    }
+  }, [pathname]);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -41,7 +47,7 @@ const Header = () => {
         {/* Desktop Menu Left */}
         <ul className={`hidden md:flex space-x-8 lg:space-x-12 text-lg font-medium ${isFixed ? 'text-black' : 'text-white'}`}>
           {menuItemsLeft.map((item, index) => (
-            <li key={index} className="hover:text-gray-500 cursor-pointer  text-xl lg:text-2xl">
+            <li key={index} className="hover:text-gray-500 cursor-pointer text-xl lg:text-2xl">
               {item}
             </li>
           ))}
@@ -67,7 +73,7 @@ const Header = () => {
 
       {/* Mobile Side Drawer Menu */}
       <div
-      id="hero-section"
+        id="hero-section"
         className={`fixed top-0 left-0 h-full bg-white shadow-lg z-30 transform ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out w-64 md:hidden`}

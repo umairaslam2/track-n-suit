@@ -1,5 +1,5 @@
 import {  Footer } from "@/components"
-import Header from '@/components/Header/Header'
+import Header from '@/components/Header/header'
 import "../globals.css";
 import { Providers } from "@/GlobalRedux/Provider";
 import { AnimatePresence } from "framer-motion";
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`antialiased font-serif bg-white flex w-full flex-col   max-h-full`}
+        className={`antialiased bg-white flex w-full flex-col   max-h-full`}
       >
         <Providers>
           <Header />
