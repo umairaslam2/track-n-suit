@@ -20,15 +20,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.4.0",
-<<<<<<< HEAD
-    "react-loading-skeleton": "^3.5.0",
-    "react-redux": "^9.2.0",
-    "react-toastify": "^11.0.2",
-=======
     "react-redux": "^9.2.0",
     "react-scroll": "^1.9.0",
     "react-toastify": "^11.0.3",
->>>>>>> e4235bbd86b027a91d0ac511412f9d9a6740b37a
     "redux-persist": "^6.0.0",
     "swiper": "^11.1.15",
     "yup": "^1.6.1"
