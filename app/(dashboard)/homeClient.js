@@ -1,7 +1,8 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React, { Suspense, useEffect } from 'react'
-import { Herosection,  Arrival, Title,   AllHomeProduct } from '@/components'
+import Herosection from '@/components/Herosection/herosection'
+import {   Arrival, Title,   AllHomeProduct } from '@/components'
 import MenCategory from '@/components/TopProducts/MenCategory'
 import WomenCategory from '@/components/TopProducts/WomenCategory'
 import OtherCategory from '@/components/TopProducts/OtherCategory'

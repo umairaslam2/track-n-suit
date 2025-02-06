@@ -1,4 +1,5 @@
-import { Header, Footer } from "@/components"
+import {  Footer } from "@/components"
+import Header from '@/components/Header/header'
 import "../globals.css";
 import { Providers } from "@/GlobalRedux/Provider";
 import { AnimatePresence } from "framer-motion";
@@ -24,12 +25,12 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`antialiased bg-white flex flex-col   max-h-full`}
+        className={`antialiased bg-white flex w-full flex-col   max-h-full`}
       >
         <Providers>
           <Header />
           <DrawerComp/>
-          <main className="flex-grow max-w-screen-xl w-full flex flex-col mx-auto">
+          <main className="flex-grow w-screen  flex flex-col mx-auto">
           <AnimatePresence mode="wait">
             {children}
             </AnimatePresence>
