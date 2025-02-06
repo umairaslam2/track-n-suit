@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client"
 import React from "react";
 import Image from "next/image";
@@ -52,30 +51,5 @@ export function Herosection() {
      }
     </Carousel>
   );
-=======
-import React from 'react'
-import image from '@/public/Images/tesc.PNG'
-const Herosection = () => {
-  return (
-    <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: 'url(image)' }}>
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-      <Header />
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
-        <p className="text-lg uppercase tracking-widest">From $59</p>
-        <h1 className="text-6xl font-bold uppercase mt-4 mb-6">ready to wear</h1>
-        <button className="px-6 py-3 bg-white text-black font-semibold uppercase tracking-widest hover:bg-gray-300 transition">
-          Shop Now
-        </button>
-      </div>
-      <div className="absolute bottom-10 right-10 z-10 text-white text-center">
-        <p className="uppercase text-sm">03</p>
-        <div className="flex flex-col items-center mt-2">
-          <button className="mb-2 bg-pink-500 px-4 py-2 rounded-full">Related</button>
-          <button className="bg-white text-black px-4 py-2 rounded-full">Buy Now</button>
-        </div>
-      </div>
-    </div>
-  )
->>>>>>> e4235bbd86b027a91d0ac511412f9d9a6740b37a
 }
 

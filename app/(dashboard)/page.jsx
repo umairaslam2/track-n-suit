@@ -3,7 +3,6 @@ import React, { Suspense } from 'react'
 import HomeClientPage from './homeClient'
 import { getAllProducts } from '@/API/response';
 import HomePageSkeleton from './homePageSkeleton';
-import TestPage from './text';
 
 const HomePage = async () => {
       const route = `products`;
@@ -12,8 +11,7 @@ const HomePage = async () => {
         // console.log(response)
         return (
           <Suspense fallback={<HomePageSkeleton/>}>
-            {/* <TestPage/> */}
-             {/* <HomeClientPage data={response}/> */}
+             <HomeClientPage data={response}/>
           </Suspense>
         )
         // return response
@@ -29,7 +27,7 @@ export default HomePage
 
 export  function generateMetadata (){
   return{
-    title :"track n Suit | Premium Perfumes & Luxury Scents for Men & Women",
+    title :"Mystical Fragrance | Premium Perfumes & Luxury Scents for Men & Women",
     description: `Discover the enchanting world of Mystical Fragrance – premium perfumes and colognes designed to captivate your senses. Shop our long-lasting, luxury fragrances for men and women. Experience affordable elegance today!`
   }
 }

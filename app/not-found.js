@@ -1,23 +1,23 @@
-"use client"
-import { Button } from '@material-tailwind/react'
 import Link from 'next/link'
 import React from 'react'
 
 const NotFound = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white relative">
-    {/* Background texture */}
-    <div className="absolute inset-0 bg-[url('/Images/404.jpg')] bg-cover bg-center opacity-30"></div>
-    
-    {/* 404 Content */}
-    <div className="relative z-10 text-center">
-      <h1 className="text-8xl font-bold">404</h1>
-      <p className="text-2xl mt-4 opacity-80">this page does not exist</p>
+         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center">
+    <h1 className="text-9xl font-bold animate-bounce">404</h1>
+    <p className="mt-4 text-2xl font-semibold">Page Not Found</p>
+    <p className="mt-2 text-lg">Oops! The page you are looking for does not exist.</p>
+    <div className="mt-6">
       <Link href="/">
-        <Button className="mt-6 px-6 py-3 bg-white text-gray-900 shadow-lg hover:bg-gray-200">
-          go back
-        </Button>
+        <span
+          className={`px-6 py-3 text-lg font-medium transition-transform duration-300 bg-white text-indigo-600 rounded-md shadow-md hover:scale-105 hover:animate-pulse`}
+        >
+          Go Back Home
+        </span>
       </Link>
+    </div>
+    <div className="absolute bottom-8 text-sm opacity-80">
+      <p>Need help? Contact our support team.</p>
     </div>
   </div>
   )
