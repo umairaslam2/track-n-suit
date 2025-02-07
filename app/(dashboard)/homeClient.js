@@ -21,7 +21,7 @@ const HomeClientPage = ({data}) => {
   }, [isUser, router]);
   return (
     <>
-    <span className='pb-5 h-full'>
+    <span className=' h-full'>
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

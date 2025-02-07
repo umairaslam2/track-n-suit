@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`antialiased bg-white flex w-full flex-col   max-h-full`}
+        className={`antialiased bg-white overflow-x-hidden flex w-full flex-col   max-h-full`}
       >
         <Providers>
           <Header />

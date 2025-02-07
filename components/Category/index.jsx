@@ -23,11 +23,11 @@ const Category = () => {
         },
   ]
   return (
-    <div className="flex justify-center items-center gap-20  h-full !pb-40"> 
+    <div className="flex justify-center items-center overflow-x-auto  gap-10 md:gap-20 w-full   !pb-40"> 
     {
     shopItems.map((product, index)=>(
         <>
-        <div  key={index} className="relative w-60 h-60 md:w-72 md:h-72 hover:cursor-pointer
+        <div  key={index} className="relative min-w-60 h-60 md:w-72 md:h-72  hover:cursor-pointer
          rounded-full bg-gray-200 overflow-hidden group">
           <div className="absolute left-0 w-1/2 h-full overflow-hidden bg-black opacity-70 transition-all duration-700 group-hover:translate-x-[-100%]">
           </div>
@@ -41,9 +41,9 @@ const Category = () => {
           </div>
           <Image
             src={product.image}
-            height={200}
-            width={200}
-            className='h-full w-full'
+            height={800}
+            width={800}
+            className='h-full w-full '
           />
         </div>
         </>

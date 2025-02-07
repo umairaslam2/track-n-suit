@@ -27,6 +27,7 @@ const ProductCard = ({ product }) => {
       <div className="p-2 flex-1 flex flex-col">
         <div className="flex-1">
           <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{product.name}</h5>
+          <h3 className="text-sm sm:text-base font-bold text-gray-600 truncate">{product.description}</h3>
           <div className="flex flex-wrap justify-between gap-2 mt-2">
             <div className="flex gap-2">
               <h6 className="text-sm sm:text-base font-bold text-gray-800">${product.price}</h6>

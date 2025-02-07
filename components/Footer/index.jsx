@@ -4,10 +4,10 @@ import SocialIcon from './Icon'
 
 export  const Footer = () => {
   return (
-    <footer className="bg-gray-300 text-black py-12 px-8 font-sans tracking-wide">
+    <footer className="bg-[#000] text-white py-12 px-8 font-sans tracking-wide">
   <div className="max-w-screen-xl mx-auto">
     <div className="grid max-sm:grid-cols-1 lg:grid-cols-3 items-center gap-8">
-      <h4 className="lg:col-span-2 text-lg font-semibold capitalize text-black leading-relaxed">
+      <h4 className="lg:col-span-2 text-lg font-semibold capitalize text-white leading-relaxed">
         Join our newsletter to keep up to date with us!
         {/* <br /> Enter your email Subscribe */}
       </h4>
@@ -30,13 +30,13 @@ export  const Footer = () => {
       <div className="lg:col-span-3 max-lg:col-span-full">
           <SocialIcon/>
          {/* <span className="">
-          <h1 className='text-black text-5xl text-bold  '>Mystrical Fragrance</h1>
+          <h1 className='text-white text-5xl text-bold  '>Mystrical Fragrance</h1>
           </span> */}
         {/* <p className="text-gray-300 leading-relaxed text-sm lg:max-w-sm mt-6">
         Discover the ultimate shopping experience at Mystical Fragrance! Explore a wide range of products with category-wise browsing, seamless Add to Cart functionality, and secure checkout.
         </p> */}
         <span className='h-full w-full pt-6'>
-          <span className='text-xl text-gray-700 text-bold w-full !py-6 '>Powered By Nubitsoft</span>
+          <span className='text-xl text-gray-500 text-bold w-full !py-6 '>Powered By Nubitsoft</span>
           <span className='h-full w-full '>
             <a href={'https://nubitsoft.com/'}>
              <Image
@@ -53,12 +53,12 @@ export  const Footer = () => {
         
       </div>
       <div>
-        <h4 className="text-lg font-semibold my-4 sm:mb-4  text-black">Quick Menu</h4>
+        <h4 className="text-lg font-semibold my-4 sm:mb-4  text-white">Quick Menu</h4>
         <ul className="space-y-4">
           <li className="hover:cursor-pointer">
             <a
               href="/"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
               Home
             </a>
@@ -66,7 +66,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/about"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
               About Us
             </a>
@@ -74,7 +74,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/contact"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
               Contact Us
             </a>
@@ -82,7 +82,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/blogs"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
               Blog
             </a>
@@ -90,7 +90,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/sitemap"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
               Site Map
             </a>
@@ -98,12 +98,12 @@ export  const Footer = () => {
         </ul>
       </div>
       <div>
-        <h4 className="text-lg font-semibold my-4 sm:mb-4  text-black">Policies</h4>
+        <h4 className="text-lg font-semibold my-4 sm:mb-4  text-white">Policies</h4>
         <ul className="space-y-4">
           <li className="hover:cursor-pointer">
           <a
               href="/policy"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
              Shipping Policy 
             </a>
@@ -111,7 +111,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/policy"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
              Privacy Policy 
             </a>
@@ -119,7 +119,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/policy"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
              Return And Refund Policy 
             </a>
@@ -127,7 +127,7 @@ export  const Footer = () => {
           <li className="hover:cursor-pointer">
           <a
               href="/policy"
-              className="text-gray-900  hover:text-black text-sm"
+              className="text-gray-300  hover:text-white text-sm"
             >
              Terms & Conditions Policy 
             </a>
@@ -135,7 +135,7 @@ export  const Footer = () => {
         </ul>
       </div>
     </div>
-    <p className="text-sm text-gray-800 mt-8">
+    <p className="text-sm text-gray-300 mt-8">
      <a href='/'> © TracknSuit.</a> All rights reserved.
     </p>
   </div>

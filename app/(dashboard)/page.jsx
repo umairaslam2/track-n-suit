@@ -27,7 +27,7 @@ export default HomePage
 
 export  function generateMetadata (){
   return{
-    title :"Mystical Fragrance | Premium Perfumes & Luxury Scents for Men & Women",
+    title :"TracknSuit | Premium Perfumes & Luxury Scents for Men & Women",
     description: `Discover the enchanting world of Mystical Fragrance – premium perfumes and colognes designed to captivate your senses. Shop our long-lasting, luxury fragrances for men and women. Experience affordable elegance today!`
   }
 }
