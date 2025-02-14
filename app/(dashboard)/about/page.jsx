@@ -21,7 +21,7 @@ const AboutUs = () => {
         <meta property="og:type" content="website" />
       </Head>
     
-      <div className="bg-gray-200">
+      <div className="bg-gray-200 py-16">
   {/* Hero Section */}
   <div
     className="relative bg-gray-400 text-white text-center py-24"

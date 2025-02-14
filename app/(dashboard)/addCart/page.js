@@ -4,8 +4,11 @@ import { AddCartSkeleton } from './AddCartSkeleton'
 
 const AddToCart = () => {
   return (
-   <Suspense fallback={<AddCartSkeleton/>}>
+   <Suspense fallback={<AddCartSkeleton/>} >
+
+    <span className='min-h[50vh] lg:max-w-6xl mx-auto'>
    <AddCart/>
+    </span>
    </Suspense>
   )
 }

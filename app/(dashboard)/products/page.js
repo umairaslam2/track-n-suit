@@ -19,7 +19,10 @@ const AllProduct = () => {
         <meta property="og:url" content="https://mysticalfragrance.com/products" />
         <meta property="og:type" content="product" />
       </Head>
+
+      <span className='pt-20'>
     <ProductList/>
+      </span>
     </>
   )
 }

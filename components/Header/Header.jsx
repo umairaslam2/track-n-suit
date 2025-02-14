@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Header = () => {
   const pathname = usePathname();
@@ -29,7 +30,7 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const menuItemsLeft = ["Home", "Products", "About", "Contact", "Blog", "Login"];
+  const menuItemsLeft = ["home", "products", "about", "contact", "blogs", "login"];
   const menuItemsRight = ["Cart (0)", "Search"];
 
   return (
@@ -47,9 +48,11 @@ const Header = () => {
         {/* Desktop Menu Left */}
         <ul className={`hidden md:flex space-x-8 lg:space-x-12 text-lg font-medium ${isFixed ? 'text-black' : 'text-white'}`}>
           {menuItemsLeft.map((item, index) => (
-            <li key={index} className="hover:text-gray-500 cursor-pointer text-xl lg:text-2xl">
+            <Link href={item}>
+            <li key={index} className="hover:text-gray-500 capitalize cursor-pointer text-xl lg:text-2xl">
               {item}
             </li>
+            </Link>
           ))}
         </ul>
 

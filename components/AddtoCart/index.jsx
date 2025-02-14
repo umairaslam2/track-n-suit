@@ -6,7 +6,7 @@ export const  AddCart = () => {
   
   const [shippingPrice, setShippingPrice] = useState(200);
   return (
-    <div className='py-5 grid  grid-cols-1 md:grid-cols-2 '>
+    <div className='py-5 pt-28 grid  grid-cols-1 md:grid-cols-2 '>
       <span>
         <span className='fontbold text-4xl'>Your Cart</span>
         <span>

@@ -43,7 +43,7 @@ export function Blog() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen py-16">
       {/* Hero Section */}
       <div
         id="hero"
