@@ -27,6 +27,7 @@ import { EditProductModal } from "../Modals/EditModal";
 import { useRouter } from "next/navigation";
 
 const TABLE_HEAD = ["Image", "Price", "Compare Price", "Category", "Action"];
+// const TABLE_HEAD = ["Image", "Price",  "Category", "Action"];
 
 
 export function AllProduct() {
@@ -51,7 +52,7 @@ export function AllProduct() {
   };
 //   delete  product Function
 const deleteProductFunc = async(id) => {
-  const response = await DeleteProduct(`products/${id}`,adminToken)
+  const response = await DeleteProduct(`products/delete/${id}`)
   // console.log(response)
   dispatch(deleteProduct(id))
   successNotify(response?.message)
@@ -73,34 +74,45 @@ const handleCloseModal = () => {
 };
 // get single product 
 const GetSingleProduct = async(id) =>{
-  // console.log("id -->>>",id)
-  const response = await getSingleProducts(`products/${id}`)
-  // console.log("response",response)
-  setSingleProduct(response)
-  // console.log("singleProduct -->>>",singleProduct)
+  console.log("id -->>>",id)
+  const response = await getSingleProducts(`products/get/${id}`)
+  console.log("response",response.data[0])
+  setSingleProduct(response.data[0])
+  console.log("singleProduct -->>>",singleProduct)
 
 }
 const handleUpdateProduct = async (updatedData) => {
   // console.log(`/single product id  /`,singleProduct._id)
-  // console.log("updatedData",updatedData)
+  console.log("updatedData",updatedData)
+  const requestData = {
+    id: updatedData.id,
+    name: updatedData.name,
+    description: updatedData.description,
+    price: updatedData.price,
+    compare_price: updatedData.compare_price, // Ensure this matches backend
+    category: updatedData.category,
+    images: updatedData.images ? updatedData.images : singleProduct.images, 
+  };
   const formData = new FormData();
   formData.append('name', updatedData.name);
   formData.append('description', updatedData.description);
   formData.append('price', updatedData.price);
-  formData.append('comparePrice', updatedData.comparePrice);
+  formData.append('compare_price', updatedData.compare_price);
   formData.append('category', updatedData.category);
-  updatedData?.images?.forEach((image) => {
-    formData.append("images", image);
-  })
+  formData.append('images', "https://www.mysticalfragrance.com/_next/image?url=%2FImages%2Fbanner2.png&w=828&q=75");
+  // updatedData?.images?.forEach((image) => {
+  //   formData.append("images", image);
+  // })
   try {
-    const response = await EditProduct(`products/${singleProduct?._id}`, formData, adminToken);
-    // console.log("API response ",response)
-    dispatch(updateProducts(response)); // Update the product in Redux
-    setSingleProduct(response); // Update local state
-    if (response) {
-      successNotify("Product updated successfully!");
-      // handleCloseModal()
-    }
+    console.log("final request  data ", requestData)
+    const response = await EditProduct(`products/update/${updatedData?.id}`, formData);
+    console.log("API response ",response)
+    // dispatch(updateProducts(response)); // Update the product in Redux
+    // setSingleProduct(response); // Update local state
+    // if (response) {
+    //   successNotify("Product updated successfully!");
+    //   // handleCloseModal()
+    // }
   } catch (error) {
     console.error("Error updating product:", error.message);
     // errorNotify("Failed to update the product!");
@@ -109,29 +121,29 @@ const handleUpdateProduct = async (updatedData) => {
   
   // get all products 
   const getAllProduct = async() => {
-    const route = `products`;  
+    const route = `products/`;  
     try {
       dispatch(getProductStart())
         const response = await getAllProducts(route)
-        // console.log("response--->", response)
-        dispatch(getProductSuccess(response))
+        console.log("response--->", response)
+        dispatch(getProductSuccess(response.data))
       } catch (error) {
         errorNotify(error ||response.message)
       }
   }
   const {allProducts,isLoader} = useSelector((state)=> state.allproducts)
- 
+  
 useEffect(()=>{
   getAllProduct()
 },[])
-useEffect(() => {
-if (isUser?.userName) {
-    router.push('/allProducts');
-}
-else {
-    router.push('/');
-}
-    }, [isUser, router]);
+// useEffect(() => {
+// if (isUser?.userName) {
+//     router.push('/allProducts');
+// }
+// else {
+//     router.push('/');
+// }
+//     }, [isUser, router]);
   return (
     <Suspense fallback={<ProductSkeleton/>}>
 
@@ -193,41 +205,47 @@ else {
               </tr>
             )):
             allProducts?.length < 1 ? <div className="flex justify-center items-center flex-col  min-h-72 md:pl-60 max-w-xl text-4xl ">Currently, there are no products available. Stay tuned—exciting new items are coming soon!</div> :
-            allProducts.map((item, index) => {
+            allProducts?.map((item, index) => {
               const isLast = index === allProducts.length - 1;
               const classes = isLast
                 ? "p-2"
                 : "p-2 border-b border-blue-gray-50";
-
+                let images = [];
+                try {
+                  images = Array.isArray(item.image) ? item.image : JSON.parse(item.image);
+                } catch (error) {
+                  console.error("JSON parsing error for item.image:", item.image, error);
+                }
               return (
-                <tr key={item._id}>
+                <tr key={item.id}>
                   <td className={`${classes} w-fit`}>
                     <div className="flex items-center gap-3">
-                      <Avatar
-                        src={item.images.length != 0 ? item.images[0] :"/Images/Img-not-found.jpg"}
-                        alt={item.name}
-                        size="md"
-                        className="border border-blue-gray-50 bg-blue-gray-50/50 object-fit p-1"
-                      />
+                          <Avatar
+                          key={index}
+                          src={images.length != 0 ? images[0] :"/Images/Img-not-found.jpg"}
+                          alt={item.title}
+                          size="md"
+                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-fit p-1"
+                          />
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-bold  w-1/2"
                       >
-                        {item.name.slice(0,30)}
+                        {item?.title?.slice(0,30)}
                       </Typography>
                     </div>
                   </td>
                   <td className={classes}>{item.price}</td>
-                  <td className={classes}>{item.comparePrice}</td>
+                  <td className={classes}>{item.compare_price}</td>
                   <td className={classes}>
-                    <Chip size="sm" variant="ghost" value={item.category} color="amber"  className="w-fit"/>
+                    <Chip size="sm" variant="ghost" value={item?.category} color="amber"  className="w-fit"/>
                   </td>
                   <td className={classes}>
                     <Tooltip content="Edit Product">
                       <IconButton
                         variant="text"
-                        onClick={()=>handleOpenModal(item._id)}
+                        onClick={()=>handleOpenModal(item?.id)}
                       >
                         <HiOutlinePencilAlt className="h-4 w-4" />
                       </IconButton>
@@ -235,7 +253,7 @@ else {
                     <Tooltip content="Delete Product">
                       <IconButton
                         variant="text"
-                        onClick={() => handleOpenDelModal(item._id)}
+                        onClick={() => handleOpenDelModal(item.id)}
                       >
                         <FaRegTrashAlt className="h-4 w-4" />
                       </IconButton>

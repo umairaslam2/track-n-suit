@@ -16,6 +16,7 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 export function EditProductModal({ openModal, onClose, submitHua, data }) {
+  console.log("single product data ",data?.product_id)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -28,16 +29,16 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
   
   useEffect(() => {
     setFormData({
-      name: data?.name || "",
-      description: data?.description || "",
-      comparePrice: data?.comparePrice || "",
+      name: data?.product_name || "",
+      description: data?.product_description || "",
+      compare_price: data?.compare_price || "",
       price: data?.price || "",
       category: data?.category || "",
-      id: data?._id || "",
-      images: Array.isArray(data?.images) ? data.images : [],
+      id: data?.product_id || "",
+      images: Array.isArray(data?.imgURL) ? data.imgURL : [],
     });
   }, [data]);
-
+// console.log("data",formData)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -82,8 +83,8 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
     };
 
     submitHua(updatedFormData);
-    // console.log("submit time",updatedFormData)
-    onClose()
+    console.log("submit time",updatedFormData)
+    // onClose()
   };
   const getDisplayableImages = (images) => {
     return images.map((img) => {
@@ -196,15 +197,15 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
             <div className="flex gap-4">
               <div className="w-full">
                 <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-                  Compare Price
+                   Price
                 </Typography>
                 <Input
                   color="gray"
                   size="lg"
                   type="number"
                   placeholder="e.g. 10"
-                  name="comparePrice"
-                  value={formData.comparePrice}
+                  name="price"
+                  value={formData.price}
                   onChange={handleInputChange}
                   className="placeholder:opacity-100 focus:!border-t-gray-900"
                   containerProps={{
@@ -215,15 +216,15 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
 
               <div className="w-full">
                 <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-                  Price
+                 Compare Price
                 </Typography>
                 <Input
                   color="gray"
                   size="lg"
                   type="number"
                   placeholder="e.g. $50"
-                  name="price"
-                  value={formData.price}
+                  name="Compare Price"
+                  value={formData.comparePrice}
                   onChange={handleInputChange}
                   className="placeholder:opacity-100 focus:!border-t-gray-900"
                   containerProps={{
@@ -244,9 +245,9 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
                 value={formData.category}
                 onChange={(value) => setFormData((prev) => ({ ...prev, category: value }))}
               >
-                <Option value="men">Mens</Option>
-                <Option value="women">Womens</Option>
-                <Option value="unisex">Unisex</Option>
+                <Option value="men">Men</Option>
+                <Option value="women">Women</Option>
+                <Option value="kids">Kids</Option>
                 <Option value="trials">Trials</Option>
               </Select>
             </div>

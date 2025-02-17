@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "https://perfumebackend.vercel.app/api/";
+const URL = "http://localhost:5000/api/";
 import { getSessionId } from '@/utils/session';
 export const LoginUser = async (route, data) => {
   const config = {
@@ -7,10 +7,9 @@ export const LoginUser = async (route, data) => {
     method: "POST",
     headers: {
      "Content-Type": "application/json",
-
     },
     data: data,
-    withCredentials: true, 
+    // withCredentials: true, 
   };
   try {
     const res = await axios.request(config);
@@ -27,11 +26,11 @@ export const productAdd = async (route, data, token) => {
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
 
     },
     data: data,
-    withCredentials: true, 
+    // withCredentials: true, 
     
   };
   try {
@@ -70,7 +69,7 @@ export const getAllProducts = async (route) => {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
-    credentials: 'include',
+    // credentials: 'include',
   }
 };
 try {
@@ -80,7 +79,7 @@ try {
   return err.response.data
 }
 };
-export const getSingleProducts = async (route,) => {
+export const getSingleProducts = async (route) => {
   const config = {
   url: URL + route,
   method: "GET",
@@ -96,13 +95,15 @@ try {
 }
 };
 // update  product
-export const EditProduct = async (route,  data ,token) => { 
+export const EditProduct = async (route,  data ) => { 
+  console.log("API call time data ",data)
   const config = {
     url: URL + route, 
     method: "PUT",
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`
+      // "Content-Type": "application/json",
+      // Authorization: `Bearer ${token}`
     },
     data: data
   };
@@ -116,13 +117,13 @@ export const EditProduct = async (route,  data ,token) => {
 };
 
 
-export const DeleteProduct = async (route,token) => {
+export const DeleteProduct = async (route) => {
   const config = {
   url: URL + route,
   method: "DELETE",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    // Authorization: `Bearer ${token}`,
   }
 };
 try {

@@ -18,7 +18,7 @@ export const productSlice = createSlice({
     },
     deleteProduct: (state,action) => {
       state.isLoader = true
-      state.allProducts = state.allProducts.filter((elem)=>elem._id !== action.payload)
+      state.allProducts = state.allProducts.filter((elem)=>elem.id !== action.payload)
       state.isLoader = false
 
     },

@@ -24,43 +24,45 @@ const SignIn = () => {
     setShowPassword(!showPassword)
   }
   const initialValues = {
-    username: "",
+    email: "",
     password: ""
   };
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .required("Username is required"),
+    email: Yup.string()
+      .required("email is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   });
 
 const handleSubmit = async(values, {resetForm})=>{
-  const route = "auth/login"
+  const route = "users/login"
+  // console.log("values",values)
+  const obj = {
+    email:values.email,
+    userpassword:values.password
+  }
+  console.log('obj',obj)
   try {
-    const response =await LoginUser(route, values)
-    // console.log("response",response)
-    if(response.message== "Login Successfull"){
-      dispatch(LoginSuccess(response))
-      successNotify("Login Success")
-      router.push('/admin')
-      resetForm()
-    }else{
-      errorNotify(response.message)
-    }
+    const response =await LoginUser(route, obj)
+    console.log("response==>>>",response)
+    // if(response== "Login Successfull"){
+    //   dispatch(LoginSuccess(response))
+    //   successNotify("Login Success")
+    //   router.push('/admin')
+    //   resetForm()
+    // }else{
+    //   errorNotify(response.message)
+    // }
   } catch (error) {
     console.log("error",error.message)
   }
-  // console.log("values",values)
 }
 
   return (
     <Suspense fallback={<LoginSkeleton/>}>
       <div className="rounded-3xl border border-stroke w-full h-[80vh]   bg-[#e6e8eb] flex items-center justify-center shadow-lg shadow-gray-500">
         <div
-        // initial={{ opacity: 0, y: 100 }}
-        // animate={{ opacity: 1, y: 0 }}
-        // transition={{ duration: 0.4, delay: 0 }}
         className="flex flex-wrap items-center justify-center w-full h-full ">
           <div className="hidden w-full xl:block xl:w-1/2">
           
@@ -69,7 +71,7 @@ const handleSubmit = async(values, {resetForm})=>{
           </Link>
             <div className="px-26 py-17.5 text-center">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                SignIn To Mystical Fragrance
+                SignIn To TracknSuit
               </h2>
               <p className="2xl:px-20">
                 Please Sign in to access your resources.
@@ -200,14 +202,12 @@ const handleSubmit = async(values, {resetForm})=>{
           </div>
 
           <div className="w-full flex items-center flex-col gap-8 rounded-r-lg border-stroke bg-slate-300 dark:border-strokedark xl:w-1/2 xl:border-l-2">
-          {/* <Link href={"/"}>
-          <span className="flex items-center justify-start lg:hidden text-blue-400 font-bold hover:underline hover:cursor-pointer"> <IoArrowBackOutline size={20} /> Back</span>
-          </Link> */}
+         
           <Link href={"/"}>
         <Image
           height={500}
           width={500}
-          src="/Images/logoNew.png"
+          src="/Images/tracknsuit-logo-white.png"
           alt="Logo"
           className="h-32  w-full bg-white rounded-full object-contain"
           />
@@ -224,12 +224,12 @@ const handleSubmit = async(values, {resetForm})=>{
                 <Form className="w-full max-w-sm">
                   <div className="relative mb-6">
                     <Field
-                      name="username"
-                      type="text"
-                      placeholder="username"
+                      name="email"
+                      type="email"
+                      placeholder="email"
                       className={`block w-full p-2 border-b-2 ${errors.email && touched.email ? 'border-red-500' : 'border-gray-300'}`}
                     />
-                    <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
+                    <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
 
                   <div className="relative mb-6">

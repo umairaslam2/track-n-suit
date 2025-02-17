@@ -38,18 +38,19 @@ export function AddProductClient() {
   // const { users } = useSelector((state) => state.user);
   const adminToken = isUser?.token
   const initialValues = {
-    name: "",
-    description: "",
+    product_name: "",
+    product_description: "",
     price: "",
     comparePrice: "",
     category: "",
+    quantity: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
+    product_name: Yup.string()
       .required("Product name is required")
       .min(3, "Product name must be at least 3 characters"),
-    description: Yup.string()
+      product_description: Yup.string()
       .required("Description is required")
       .min(10, "Description must be at least 10 characters"),
     comparePrice: Yup.number()
@@ -61,31 +62,29 @@ export function AddProductClient() {
       .min(1, "Price must be at least 1"),
     category: Yup.string()
       .required("Category is required"),
+    quantity: Yup.string()
+      .required("Quantity is required"),
 
   });
   const handleSubmit = async (values, { resetForm }) => {
-    setIsSubmitting(true);
-    // console.log("file data images", dataFiles)
-    const route = 'products/'
+    console.log("values-->>>", values)
+    console.log("data Files-->>>", dataFiles)
+    // setIsSubmitting(true);
+    const route = 'products/add'
     const data = new FormData()
-    data.append("name", values.name)
-    data.append("description", values.description)
-    data.append("comparePrice", values.comparePrice)
-    data.append("price", values.price)
+    data.append("product_name", values.product_name)
+    data.append("product_description", values.product_description)
+    data.append("compare_price", values.comparePrice)
+    data.append("product_price", values.price)
     data.append("category", values.category)
-    // const files = refFile.current.files;
-    for (let i = 0; i < dataFiles.length; i++) {
-      data.append("images", dataFiles[i]);
-      const image = dataFiles[i]
-      // console.log(image)
-      
-    }
-    // data.append("images", dataFiles);
-
+    data.append("quantity", values.quantity)
+    dataFiles.forEach((file) => data.append("images", file));
+   
+    
     try {
-      const response = await productAdd(route, data, adminToken)
-      // console.log("response--->>>>", response)
-      if (response.message == "Product Add Successfully") {
+      const response = await productAdd(route, data)
+      console.log("response--->>>>", response)
+      if (response.status) {
         successNotify(response.message)
         setFileNames([])
         setImages([])
@@ -94,6 +93,7 @@ export function AddProductClient() {
         errorNotify(response.message)
       }
     } catch (error) {
+      console.log("error",error)
       errorNotify(error || response.message)
     }
     finally {
@@ -122,16 +122,15 @@ export function AddProductClient() {
 
   // };
 
-  useEffect(() => {
-    if (isUser?.userName) {
-      router.push('/addProduct');
-    }
-    else {
-      router.push('/');
-    }
-  }, [isUser, router]);
+  // useEffect(() => {
+  //   if (isUser?.userName) {
+  //     router.push('/addProduct');
+  //   }
+  //   else {
+  //     router.push('/');
+  //   }
+  // }, [isUser, router]);
   // image preview 
-  const [image, setImage] = useState(null);
   // const handleImageUpload = (event) => {
   //   const file = event.target.files[0]; // Get the first selected file
   //   if (file) {
@@ -146,7 +145,7 @@ export function AddProductClient() {
   return (
     <div
     >
-      <Card
+   <Card
         shadow={false}
         className="md:px-24 md:py-8  m-4 border border-gray-300"
       >
@@ -156,7 +155,7 @@ export function AddProductClient() {
             color="blue-gray"
             className="mb-4 !text-3xl lg:text-4xl"
           >
-            Add Product
+          Product Add
           </Typography>
 
         </CardHeader>
@@ -169,18 +168,16 @@ export function AddProductClient() {
             <Form
               className="flex flex-col gap-4 "
             >
-             
               {/* image uploaded component */}
               <ImageUpload setData={setDataFiles} images={images} setImages={setImages} />
               <span>
 
-                <FieldInput type="text" name='name' placeholder="Enter Your Product Name"  label="Product Name" />
+                <FieldInput type="text" name='product_name' placeholder="Enter Your Product Name"  label="Product Name" />
                 <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
               </span>
 
               <span>
-                <FieldInput type="textarea" name='description' placeholder="Enter Description" label="Description" />
-                {/* <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" /> */}
+                <FieldInput type="textarea" name='product_description' placeholder="Enter Description" label="Description" />
               </span>
 
               <span className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -197,14 +194,13 @@ export function AddProductClient() {
 
                 <span>
                   <FieldInput type="select" name='category' placeholder="Category" label="Category" />
-                  {/* <option></option> */}
                   <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1" />
                 </span>
 
-                {/* <span>
-                <FieldInput type="number" name='quantity' placeholder="Product Quantity" label="Quantity" />
-                <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm mt-1" />
-              </span> */}
+                <span>
+                  <FieldInput type="number" name='quantity' placeholder="Enter Your  quantity" label="quantity" />
+                  <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm mt-1" />
+                </span>
               </span>
 
               <span className="grid grid-cols-2 gap-2 py-4 ">
