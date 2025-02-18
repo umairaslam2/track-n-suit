@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState, useRef } from "react";
 
 const ImageUpload = ({ setData,images,setImages }) => {
@@ -37,7 +38,7 @@ const ImageUpload = ({ setData,images,setImages }) => {
     >
       {images.length === 0 ? (
         <div className="absolute flex flex-col items-center w-full">
-          <img
+          <Image
             height={70}
             width={70}
             alt="File Icon"
@@ -65,7 +66,9 @@ const ImageUpload = ({ setData,images,setImages }) => {
               key={index}
               className="relative flex-shrink-0 w-28 h-20 rounded-lg overflow-hidden shadow-md"
             >
-              <img
+              <Image
+              height={70}
+              width={70}
                 src={image.url}
                 alt={`Uploaded Preview ${index + 1}`}
                 className="w-full h-full object-cover"

@@ -47,7 +47,9 @@ const AboutUs = () => {
   <div className="py-16 max-w-6xl mx-auto px-4 lg:px-0 grid lg:grid-cols-2 gap-10">
     <div className="grid grid-cols-2 gap-4 animate-fade-in">
       <div className="row-span-2">
-        <img
+        <Image
+        height={800}
+        width={800}
         // loading="lazy"
           src="https://images.pexels.com/photos/4735906/pexels-photo-4735906.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Luxury Perfume Bottle"
@@ -55,7 +57,9 @@ const AboutUs = () => {
         />
       </div>
       <div>
-        <img
+        <Image
+        height={800}
+        width={800}
         // loading="lazy"
           src="https://images.pexels.com/photos/932577/pexels-photo-932577.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Perfume Collection"

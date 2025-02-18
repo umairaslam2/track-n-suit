@@ -86,7 +86,9 @@ const AdminClientPage = () => {
                                     <div className="dropdown-menu relative flex shrink-0 group">
                                         <div className="flex items-center gap-4">
                                             <p className="text-gray-500 text-sm">Hi, {isUser?.userName}</p>
-                                            <img
+                                            <Image
+                                              height={70}
+                                              width={70}
                                                 src="https://readymadeui.com/team-1.webp"
                                                 alt="profile-pic"
                                                 className="w-[38px] h-[38px] hidden sm:block rounded-full border-2 border-gray-300 cursor-pointer"
