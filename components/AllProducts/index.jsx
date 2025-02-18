@@ -212,18 +212,18 @@ useEffect(()=>{
                 : "p-2 border-b border-blue-gray-50";
                 let images = [];
                 try {
-                  images = Array.isArray(item.image) ? item.image : JSON.parse(item.image);
+                  images = Array.isArray(item.IMGURL) ? item.IMGURL : JSON.parse(item.IMGURL);
                 } catch (error) {
                   console.error("JSON parsing error for item.image:", item.image, error);
                 }
               return (
-                <tr key={item.id}>
+                <tr key={item.PRODUCT_ID}>
                   <td className={`${classes} w-fit`}>
                     <div className="flex items-center gap-3">
                           <Avatar
                           key={index}
                           src={images.length != 0 ? images[0] :"/Images/Img-not-found.jpg"}
-                          alt={item.title}
+                          alt={item.PRODUCT_NAME}
                           size="md"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-fit p-1"
                           />
@@ -232,23 +232,23 @@ useEffect(()=>{
                         color="blue-gray"
                         className="font-bold  w-1/2"
                       >
-                        {item?.title?.slice(0,30)}
+                        {item?.PRODUCT_NAME?.slice(0,30)}
                       </Typography>
                     </div>
                   </td>
-                  <td className={`${classes} text-center`}>{item.price}</td>
-                  <td className={`${classes} text-center`}>{item.compare_price}</td>
+                  <td className={`${classes} text-center`}>{item.PRICE}</td>
+                  <td className={`${classes} text-center`}>{item.COMPARE_PRICE}</td>
                   <td className={classes}>
-                    <Chip size="sm" variant="ghost" value={item?.brand} color="green"  className="w-fit"/>
+                    <Chip size="sm" variant="ghost" value={item?.BRAND} color="green"  className="w-fit"/>
                   </td>
                   <td className={classes}>
-                    <Chip size="sm" variant="ghost" value={item?.category} color="amber"  className="w-full text-center"/>
+                    <Chip size="sm" variant="ghost" value={item?.CATEGORY} color="amber"  className="w-full text-center"/>
                   </td>
                   <td className={`${classes} text-center`}>
                     <Tooltip content="Edit Product">
                       <IconButton
                         variant="text"
-                        onClick={()=>handleOpenModal(item?.id)}
+                        onClick={()=>handleOpenModal(item?.PRODUCT_ID)}
                       >
                         <HiOutlinePencilAlt className="h-4 w-4" />
                       </IconButton>
@@ -256,7 +256,7 @@ useEffect(()=>{
                     <Tooltip content="Delete Product">
                       <IconButton
                         variant="text"
-                        onClick={() => handleOpenDelModal(item.id)}
+                        onClick={() => handleOpenDelModal(item.PRODUCT_ID)}
                       >
                         <FaRegTrashAlt className="h-4 w-4" />
                       </IconButton>
