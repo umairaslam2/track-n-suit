@@ -44,6 +44,7 @@ export function AddProductClient() {
     comparePrice: "",
     category: "",
     quantity: "",
+    brand: "",
   };
 
   const validationSchema = Yup.object({
@@ -62,8 +63,10 @@ export function AddProductClient() {
       .min(1, "Price must be at least 1"),
     category: Yup.string()
       .required("Category is required"),
-    quantity: Yup.string()
+    quantity: Yup.number()
       .required("Quantity is required"),
+    brand: Yup.string()
+      .required("Brand is required"),
 
   });
   const handleSubmit = async (values, { resetForm }) => {
@@ -78,6 +81,7 @@ export function AddProductClient() {
     data.append("product_price", values.price)
     data.append("category", values.category)
     data.append("quantity", values.quantity)
+    data.append("brand", values.brand)
     dataFiles.forEach((file) => data.append("images", file));
    
     
@@ -192,6 +196,10 @@ export function AddProductClient() {
                   <ErrorMessage name="comparePrice" component="div" className="text-red-500 text-sm mt-1" />
                 </span>
 
+                <span>
+                  <FieldInput type="text" name='brand' placeholder="Brand" label="Brand" />
+                  <ErrorMessage name="brand" component="div" className="text-red-500 text-sm mt-1" />
+                </span>
                 <span>
                   <FieldInput type="select" name='category' placeholder="Category" label="Category" />
                   <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1" />

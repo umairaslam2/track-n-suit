@@ -29,8 +29,8 @@ const InputFields = ({label, type, placeholder, name ,}) => {
         <option >Select Category</option>
         <option value="men">Men</option>
         <option value="women">Women</option>
+        <option value="kids">Kids</option>
         <option value="unisex">Unisex</option>
-        <option value="trials">Trials</option>
       {/* </Select> */}
         {/* {
           getCategory.length == 0 ? <option>No Category Avalaible</option> :

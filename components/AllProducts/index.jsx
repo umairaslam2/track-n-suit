@@ -26,7 +26,7 @@ import DeleteModal from "../Modals/deleteModals";
 import { EditProductModal } from "../Modals/EditModal";
 import { useRouter } from "next/navigation";
 
-const TABLE_HEAD = ["Image", "Price", "Compare Price", "Category", "Action"];
+const TABLE_HEAD = ["Image", "Price", "Compare Price","Brand", "Category", "Action"];
 // const TABLE_HEAD = ["Image", "Price",  "Category", "Action"];
 
 
@@ -236,12 +236,15 @@ useEffect(()=>{
                       </Typography>
                     </div>
                   </td>
-                  <td className={classes}>{item.price}</td>
-                  <td className={classes}>{item.compare_price}</td>
+                  <td className={`${classes} text-center`}>{item.price}</td>
+                  <td className={`${classes} text-center`}>{item.compare_price}</td>
                   <td className={classes}>
-                    <Chip size="sm" variant="ghost" value={item?.category} color="amber"  className="w-fit"/>
+                    <Chip size="sm" variant="ghost" value={item?.brand} color="green"  className="w-fit"/>
                   </td>
                   <td className={classes}>
+                    <Chip size="sm" variant="ghost" value={item?.category} color="amber"  className="w-full text-center"/>
+                  </td>
+                  <td className={`${classes} text-center`}>
                     <Tooltip content="Edit Product">
                       <IconButton
                         variant="text"
