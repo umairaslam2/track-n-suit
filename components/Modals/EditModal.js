@@ -16,7 +16,7 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 export function EditProductModal({ openModal, onClose, submitHua, data }) {
-  console.log("single product data ",data?.product_id)
+  console.log("single product data edit page  ", data)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -26,19 +26,20 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
     images: [],
     id: "",
   });
-  
+
   useEffect(() => {
     setFormData({
-      name: data?.product_name || "",
-      description: data?.product_description || "",
-      compare_price: data?.compare_price || "",
-      price: data?.price || "",
-      category: data?.category || "",
-      id: data?.product_id || "",
-      images: Array.isArray(data?.imgURL) ? data.imgURL : [],
+      name: data?.PRODUCT_NAME || "",
+      description: data?.PRODUCT_DESCRIPTION || "",
+      compare_price: data?.COMPARE_PRICE || "",
+      price: data?.PRICE || "",
+      category: data?.CATEGORY || "",
+      id: data?.PRODUCT_ID || "",
+      brand: data?.BRAND || "",
+      images: Array.isArray(data?.IMGURL) ? data.IMGURL : [],
     });
   }, [data]);
-// console.log("data",formData)
+  console.log("form data", formData)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -47,25 +48,25 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
   // Handle Image Change
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-  const maxSize = 5 * 1024 * 1024;
+    const maxSize = 5 * 1024 * 1024;
 
-  // Check for oversized files
-  const oversizedFiles = files.filter((file) => file.size > maxSize);
-  if (oversizedFiles.length > 0) {
-    alert("Some files are too large. Please upload files smaller than 5 MB.");
-    return;
-  }
-  // Prepare new images for preview
-  // const newImages = files.map((file) => ({
-  //   name: file.name,
-  //   url: URL.createObjectURL(file),
-  //   file: file, // Keep the file reference for upload
-  // }));
-  setFormData((prev) => ({
-    ...prev,
-    images: [...prev.images, ...files],
-  }));
-};
+    // Check for oversized files
+    const oversizedFiles = files.filter((file) => file.size > maxSize);
+    if (oversizedFiles.length > 0) {
+      alert("Some files are too large. Please upload files smaller than 5 MB.");
+      return;
+    }
+    // Prepare new images for preview
+    // const newImages = files.map((file) => ({
+    //   name: file.name,
+    //   url: URL.createObjectURL(file),
+    //   file: file, // Keep the file reference for upload
+    // }));
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...files],
+    }));
+  };
   // remove image  
   const handleRemoveImage = (index) => {
     setFormData((prev) => ({
@@ -83,7 +84,7 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
     };
 
     submitHua(updatedFormData);
-    console.log("submit time",updatedFormData)
+    console.log("submit time", updatedFormData)
     // onClose()
   };
   const getDisplayableImages = (images) => {
@@ -171,7 +172,7 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
                   </div>
                 )
                 )} */}
-              {  displayableImages.map((img, index) =>
+                {displayableImages.map((img, index) =>
 
                 (
                   <div key={index} className="relative flex flex-wrap">
@@ -197,7 +198,7 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
             <div className="flex gap-4">
               <div className="w-full">
                 <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-                   Price
+                  Price
                 </Typography>
                 <Input
                   color="gray"
@@ -216,15 +217,15 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
 
               <div className="w-full">
                 <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-                 Compare Price
+                  Compare Price
                 </Typography>
                 <Input
                   color="gray"
                   size="lg"
                   type="number"
                   placeholder="e.g. $50"
-                  name="Compare Price"
-                  value={formData.comparePrice}
+                  name="compare_price"
+                  value={formData.compare_price}
                   onChange={handleInputChange}
                   className="placeholder:opacity-100 focus:!border-t-gray-900"
                   containerProps={{
@@ -233,9 +234,8 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
                 />
               </div>
             </div>
-
-            {/* Category */}
-            <div>
+            <div className="flex gap-4 ">
+            <div className="w-full">
               <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
                 Category
               </Typography>
@@ -251,6 +251,26 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
                 <Option value="trials">Trials</Option>
               </Select>
             </div>
+            <div className="w-full">
+              <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
+                Brand*
+              </Typography>
+              <Input
+                color="gray"
+                size="lg"
+                type="text"
+                placeholder="e.g. $50"
+                name="brand"
+                value={formData.brand}
+                onChange={handleInputChange}
+                className="placeholder:opacity-100 focus:!border-t-gray-900"
+                containerProps={{
+                  className: "!min-w-full",
+                }}
+              />
+            </div>
+            </div>
+
 
             {/* Description */}
             <div>

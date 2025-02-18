@@ -74,11 +74,11 @@ const handleCloseModal = () => {
 };
 // get single product 
 const GetSingleProduct = async(id) =>{
-  console.log("id -->>>",id)
+  // console.log("id -->>>",id)
   const response = await getSingleProducts(`products/get/${id}`)
-  console.log("response",response.data[0])
+  console.log("response API response ===>>>>",response.data[0])
   setSingleProduct(response.data[0])
-  console.log("singleProduct -->>>",singleProduct)
+  // console.log("singleProduct -->>>",singleProduct)
 
 }
 const handleUpdateProduct = async (updatedData) => {
