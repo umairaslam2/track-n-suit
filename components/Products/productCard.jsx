@@ -6,6 +6,7 @@ import { getAllProducts } from "@/API/response";
 import { getProductStart, getProductSuccess } from "@/GlobalRedux/Slices/allProducts";
 import { errorNotify } from "../Toast";
 import { ToastContainer } from "react-toastify";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 // ProductCard Component (displays a single product)
 const ProductCard = ({ product }) => {
@@ -100,7 +101,8 @@ const ProductList = () => {
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {allProducts && allProducts.map((product, index) => (
+        {isLoader ?[...Array(9)].map((_, index) => <ProductCardSkeleton key={index} />):
+        allProducts && allProducts.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}
       </div>
