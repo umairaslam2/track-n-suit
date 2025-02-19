@@ -116,8 +116,8 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col justify-center items-center  text-white text-center">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4 ">Your Hero Title</h1>
-        <p className="text-lg md:text-2xl mb-8">A short description or tagline goes here</p>
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 ">Track Suit Essentials</h1>
+        <p className="text-lg md:text-2xl mb-8">Unleash your potential with our modern, high-performance track suits.</p>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg">Learn More</button>
       </div>
     </div>

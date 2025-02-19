@@ -101,7 +101,10 @@ const ProductList = () => {
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {isLoader ?[...Array(9)].map((_, index) => <ProductCardSkeleton key={index} />):
+        {isLoader ?
+          <div className="grid  gap-10">
+          <ProductCardSkeleton />
+        </div> :
         allProducts && allProducts.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}

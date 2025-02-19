@@ -20,7 +20,7 @@ const AllProduct = () => {
         <meta property="og:type" content="product" />
       </Head>
 
-      <span className='pt-20'>
+      <span className='pt-28'>
     <ProductList/>
       </span>
     </>
