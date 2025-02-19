@@ -47,10 +47,10 @@ export function Blog() {
       {/* Hero Section */}
       <div
         id="hero"
-        className="relative w-full h-96 bg-cover bg-center"
+        className="relative w-full h-96 bg-contain bg-blend-soft-light bg-center"
         style={{
           backgroundImage:
-            "url('https://images.pexels.com/photos/29401618/pexels-photo-29401618/free-photo-of-elegant-display-of-luxury-perfume-bottles.jpeg?auto=compress&cs=tinysrgb&w=600')",
+            "url('https://i.ytimg.com/vi/sDZFJcaUmOI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBRGb6UfwBkelUE_nzqgtvOv-0SBw')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -78,13 +78,13 @@ export function Blog() {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-              <div className="relative w-full h-64">
-                <Image
-                  className="hover:scale-105 hover:cursor-pointer"
+              <div className="relative w-full ">
+                <img
+                  className="hover:scale-105 h-72 w-full object-cover hover:cursor-pointer"
                   src={post.image}
                   alt={post.title}
-                  layout="fill"
-                  objectFit="cover"
+                  // layout="fill"
+                  // objectFit="cover"
                   placeholder="blur"
                   blurDataURL={post.blurDataURL} // Dynamically applied
                 />

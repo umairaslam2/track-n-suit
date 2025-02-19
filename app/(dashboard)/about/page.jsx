@@ -26,7 +26,7 @@ const AboutUs = () => {
   <div
     className="relative bg-gray-400 text-white text-center py-24"
     style={{
-      backgroundImage: "url('https://images.pexels.com/photos/7405392/pexels-photo-7405392.jpeg?auto=compress&cs=tinysrgb&w=600')",
+      backgroundImage: "url('https://img2.tradewheel.com/uploads/images/mce_uploads/wholesale-high-quality-cotton-custom-embroidery-unisex-sport-hoodies-tracksuit-design-sublimation-oversized-uniforms0-0605150001730813471.jpg')",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundAttachment: "fixed",
@@ -47,21 +47,21 @@ const AboutUs = () => {
   <div className="py-16 max-w-6xl mx-auto px-4 lg:px-0 grid lg:grid-cols-2 gap-10">
     <div className="grid grid-cols-2 gap-4 animate-fade-in">
       <div className="row-span-2">
-        <Image
-        height={800}
-        width={800}
+        <img
+        // height={800}
+        // width={800}
         // loading="lazy"
-          src="https://images.pexels.com/photos/4735906/pexels-photo-4735906.jpeg?auto=compress&cs=tinysrgb&w=600"
+          src="https://mir-s3-cdn-cf.behance.net/projects/404/b80143207839297.Y3JvcCw2MjUwLDQ4ODgsMCwyNzg.jpg"
           alt="Luxury Perfume Bottle"
-          className="rounded-xl w-full h-full object-cover shadow-lg transform hover:scale-105 transition duration-500"
+          className="rounded-xl w-full h-full object-fit  shadow-lg transform hover:scale-105 transition duration-500"
         />
       </div>
       <div>
         <Image
         height={800}
-        width={800}
+        width={400}
         // loading="lazy"
-          src="https://images.pexels.com/photos/932577/pexels-photo-932577.jpeg?auto=compress&cs=tinysrgb&w=600"
+         src="/Images/product_img3.webp"
           alt="Perfume Collection"
           className="rounded-xl w-full h-full object-cover shadow-lg transform hover:scale-105 transition duration-500"
         />
@@ -70,7 +70,7 @@ const AboutUs = () => {
         <Image
           height={800}
           width={800}
-          src="https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600"
+          src="/Images/product_img.webp"
           alt="Perfume Ingredients"
           // loading="lazy"
           className="rounded-xl w-full h-full object-cover shadow-lg transform hover:scale-105 transition duration-500"
