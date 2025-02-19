@@ -82,7 +82,7 @@ export function AddProductClient() {
     data.append("category", values.category)
     data.append("quantity", values.quantity)
     data.append("brand", values.brand)
-    dataFiles.forEach((file) => data.append("images", file));
+    dataFiles.forEach((file) => data.append("image", file));
    
     
     try {

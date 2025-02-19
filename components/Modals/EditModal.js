@@ -16,14 +16,14 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 export function EditProductModal({ openModal, onClose, submitHua, data }) {
-  console.log("single product data edit page  ", data)
+  // console.log("single product data edit page  ", data)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     comparePrice: "",
     category: "",
-    images: [],
+    image: "",
     id: "",
   });
 
@@ -34,12 +34,13 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
       compare_price: data?.COMPARE_PRICE || "",
       price: data?.PRICE || "",
       category: data?.CATEGORY || "",
+      quantity: data?.QUANTITY || "",
       id: data?.PRODUCT_ID || "",
       brand: data?.BRAND || "",
-      images: Array.isArray(data?.IMGURL) ? data.IMGURL : [],
+      image: data?.IMGURL || "",
     });
   }, [data]);
-  console.log("form data", formData)
+  // console.log("form data", formData)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -47,56 +48,39 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
 
   // Handle Image Change
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const file = e.target.files[0];
     const maxSize = 5 * 1024 * 1024;
 
-    // Check for oversized files
-    const oversizedFiles = files.filter((file) => file.size > maxSize);
-    if (oversizedFiles.length > 0) {
-      alert("Some files are too large. Please upload files smaller than 5 MB.");
-      return;
+    if (file) {
+      if (file.size > maxSize) {
+        alert("File is too large. Please select a file under 5 MB.");
+        return;
+      }
+      // Update the image field with the new File object
+      setFormData((prev) => ({ ...prev, image: file }));
     }
-    // Prepare new images for preview
-    // const newImages = files.map((file) => ({
-    //   name: file.name,
-    //   url: URL.createObjectURL(file),
-    //   file: file, // Keep the file reference for upload
-    // }));
-    setFormData((prev) => ({
-      ...prev,
-      images: [...prev.images, ...files],
-    }));
   };
   // remove image  
-  const handleRemoveImage = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index),
-    }));
+  const handleRemoveImage = () => {
+    setFormData((prev) => ({ ...prev, image: data?.IMGURL || "" }));
   };
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedFormData = {
-      ...formData,
-      images: formData.images.map((img) => (img.file ? img.url : img)),
-    };
-
-    submitHua(updatedFormData);
-    console.log("submit time", updatedFormData)
+    submitHua(formData);
+    console.log("submit time", formData)
     // onClose()
   };
-  const getDisplayableImages = (images) => {
-    return images.map((img) => {
-      // Check if it's a File object
-      if (img instanceof File) {
-        return URL.createObjectURL(img); // Generate preview URL for local file
-      }
-      return img; // Return the URL directly for already uploaded images
-    });
+  const getDisplayableImage = () => {
+    // If image is a File (newly selected), create an object URL for preview
+    if (formData.image instanceof File) {
+      return URL.createObjectURL(formData.image);
+    }
+    // Otherwise, assume it's a URL (the old image)
+    return formData.image || "/Images/Img-not-found.jpg";
   };
-  const displayableImages = getDisplayableImages(formData.images);
+  const displayableImages = getDisplayableImage(formData.image);
   return (
     <>
       <Dialog
@@ -152,45 +136,22 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
                 Product Image
               </Typography>
               <div className="flex gap-4 flex-wrap items-center">
-                {/* {formData.images && formData.images?.map((img, index) =>
-
-                (
-                  <div key={index} className="relative flex flex-wrap">
-
-                    <img
-                      // src={typeof formData.images === "string" ? formData.images : formData.images.file ? URL.createObjectURL(formData?.images.File):null}
-                      src={img}
-                      alt="Product"
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                    <button
-                      onClick={() => handleRemoveImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1"
-                    >
-                      X
-                    </button>
-                  </div>
-                )
-                )} */}
-                {displayableImages.map((img, index) =>
-
-                (
-                  <div key={index} className="relative flex flex-wrap">
-                    <img
-                      src={img}
-                      alt="Product"
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                    <span
-                      onClick={() => handleRemoveImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1"
-                    >
-                      X
-                    </span>
-                  </div>
-                )
-                )}
-                <input type="file" multiple accept="image/*" onChange={handleImageChange} />
+              <img
+                src={getDisplayableImage()}
+                alt="Product"
+                className="w-20 h-20 object-cover rounded"
+              />
+             
+                <input type="file"  accept="image/*" onChange={handleImageChange} />
+                {formData.image && formData.image instanceof File && (
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  className="bg-red-500 text-white text-xs rounded-full px-2 py-1"
+                >
+                  Remove
+                </button>
+              )}
               </div>
             </div>
 
@@ -270,7 +231,24 @@ export function EditProductModal({ openModal, onClose, submitHua, data }) {
               />
             </div>
             </div>
-
+            <div className="w-full">
+              <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
+                Quantity
+              </Typography>
+              <Input
+                color="gray"
+                size="lg"
+                type="text"
+                placeholder="e.g. $50"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+                className="placeholder:opacity-100 focus:!border-t-gray-900"
+                containerProps={{
+                  className: "!min-w-full",
+                }}
+              />
+            </div>
 
             {/* Description */}
             <div>

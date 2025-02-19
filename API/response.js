@@ -102,8 +102,6 @@ export const EditProduct = async (route,  data ) => {
     method: "PUT",
     headers: {
       "Content-Type": "multipart/form-data",
-      // "Content-Type": "application/json",
-      // Authorization: `Bearer ${token}`
     },
     data: data
   };

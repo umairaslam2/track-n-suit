@@ -18,12 +18,13 @@ export const productSlice = createSlice({
     },
     deleteProduct: (state,action) => {
       state.isLoader = true
-      state.allProducts = state.allProducts.filter((elem)=>elem.id !== action.payload)
+      state.allProducts = state.allProducts.filter((elem)=>elem.PRODUCT_ID !== action.payload)
       state.isLoader = false
 
     },
     updateProducts: (state,action) => {
-      const Index = state.allProducts.findIndex(product => product._id === action.payload._id);
+      console.log("action payload",action.payload.PRODUCT_ID)
+      const Index = state.allProducts.findIndex(product => product.PRODUCT_ID === action.payload.PRODUCT_ID);
       if(Index !== -1 ){
         state.allProducts[Index] = action.payload;
       }

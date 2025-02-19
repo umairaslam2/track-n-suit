@@ -53,7 +53,7 @@ const ImageUpload = ({ setData,images,setImages }) => {
             name="images"
             ref={refFile}
             accept="image/*"
-            multiple
+            // multiple
             className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
             type="file"
             onChange={handleFileChange}
