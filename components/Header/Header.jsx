@@ -39,9 +39,9 @@ const Header = () => {
         isFixed ? "fixed bg-white shadow-lg" : "absolute bg-transparent"
       } top-0 left-0 w-full z-20 transition-all duration-300`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between ">
             <Link href={'/'} >
-            <img src="/Images/tracklogo2.png" className="h-20 w-44  mix-blend-difference bg-white  " alt="" />
+            <img src="/Images/tracklogo2.png" className="h-24 w-44 my-2 rounded-xl mix-blend-difference bg-white  " alt="" />
             </Link>
 
         {/* Desktop Menu Left */}

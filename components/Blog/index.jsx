@@ -55,7 +55,7 @@ export function Blog() {
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <h1 className="text-4xl font-bold text-white">
-            Welcome to Mystical Fragrance
+            Welcome to TracknSuit
           </h1>
         </div>
       </div>

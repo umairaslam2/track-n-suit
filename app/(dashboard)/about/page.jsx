@@ -38,7 +38,7 @@ const AboutUs = () => {
     <div className="relative z-0 text-white flex flex-col justify-center items-center h-full animate-fade-in">
       <h1 className="text-4xl font-bold text-white">About Us</h1>
       <p className="mt-2 text-xl text-white">
-        Discover the essence of elegance with Mystical Fragrances.
+        Discover the essence of elegance with TracknSuit.
       </p>
     </div>
   </div>
@@ -81,10 +81,10 @@ const AboutUs = () => {
     <div className="animate-slide-up">
       <h1 className="text-secondary uppercase font-semibold text-sm">About Us</h1>
       <h2 className="text-3xl font-bold mt-2">
-        Elevate your senses with Mystical Fragrances
+        Elevate your senses with TracknSuit
       </h2>
       <p className="mt-4 text-gray-600">
-        Mystical Fragrances creates luxurious, handcrafted perfumes designed to evoke emotions and memories. Each fragrance is a personal journey, combining artistry and passion with the finest global ingredients. Our perfumes are timeless and unique, housed in beautifully crafted bottles that reflect the elegance within.
+      TracknSuit creates luxurious, handcrafted perfumes designed to evoke emotions and memories. Each fragrance is a personal journey, combining artistry and passion with the finest global ingredients. Our perfumes are timeless and unique, housed in beautifully crafted bottles that reflect the elegance within.
       </p>
       <ul className="mt-6 space-y-2">
         <li className="flex items-center">
@@ -145,7 +145,7 @@ export default AboutUs;
 
 export  function generateMetadata (){
   return{
-    title :"About Us | Mystical Fragrance",
-    description: `Learn more about Mystical Fragrance, our journey, and our commitment to providing the best perfumes and fragrances. Discover our brand story, values, and dedication to delivering high-quality perfumes and fragrances to our customers.`
+    title :"About Us | TracknSuit",
+    description: `Learn more about TracknSuit, our journey, and our commitment to providing the best perfumes and fragrances. Discover our brand story, values, and dedication to delivering high-quality perfumes and fragrances to our customers.`
   }
 }
