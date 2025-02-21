@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductDetailSkeleton = () => {
   return (
-    <div class="p-4 flex flex-col items-center space-y-6">
+    <div class="p-4 flex flex-col items-center space-y-6 mt-28">
     <div class="w-full max-w-2xl h-96 bg-gray-200 animate-pulse rounded-lg"></div>
   
     <div class="h-8 w-3/4 bg-gray-200 animate-pulse rounded"></div>

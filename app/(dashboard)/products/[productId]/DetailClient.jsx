@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import { getCartItemStart, getCartItemSuccess } from '@/GlobalRedux/Slices/allCartItems';
 import { toggleDrawer } from '@/GlobalRedux/Slices/drawerCart';
 const ProductDetails = ({ response }) => {
-  // console.log("client page ",response)
+  console.log("client page ",response)
   const dispatch = useDispatch()
   const [singleData,setSingleData] = useState('')
   const [isLoading,setIsLoading] = useState(false)
@@ -34,8 +34,8 @@ const ProductDetails = ({ response }) => {
       // const route = `products/${Id}`
          setIsLoading(true)
         // const response = await getSingleProducts(route)
-        // console.log("response--->>>>", response)
-        setSingleData(response)
+        console.log("response--->>>>", response.data[0])
+        setSingleData(response.data[0])
         setIsLoading(false)
       } catch (error) {
         errorNotify(error ||response.message)
@@ -93,11 +93,11 @@ const ProductDetails = ({ response }) => {
     <>
     {/* <Suspense fallback={<ProductDetailSkeleton/>}> */}
 
-      <span className='flex-grow max-w-screen-xl h-full'>
+      <span className=''>
         {
           isLoading? <span className='flex-grow max-w-screen-xl h-screen'><ProductDetailSkeleton/></span> : 
-       <ProductDetail url={singleData.images?singleData?.images[0]:`/Images/logoNew.png`} allFile={singleData.images} cartData={singleData} title={singleData?.name} price={singleData?.price} category={singleData.category}  comparePrice={singleData.comparePrice}  
-        description={singleData?.description}  onAddToCart={() => handleAddToCart(singleData._id,count)} onAddToCartInSm={() => handleAddToCartInSm(singleData._id,count)} addCount={addCount} decreaseCount ={decreaseCount} count={count}  /> 
+       <ProductDetail url={singleData.IMGURL ? singleData.IMGURL:`/Images/logoNew.png`} allFile={singleData.IMGURL} cartData={singleData} title={singleData?.PRODUCT_NAME} price={singleData?.PRICE} category={singleData.category}  comparePrice={singleData.COMPARE_PRICE}  
+        description={singleData?.PRODUCT_DESCRIPTION}  onAddToCart={() => handleAddToCart(singleData.PRODUCT_ID,count)} onAddToCartInSm={() => handleAddToCartInSm(singleData.PRODUCT_ID,count)} addCount={addCount} decreaseCount ={decreaseCount} count={count}  /> 
         }
        </span>
        <ToastContainer/>

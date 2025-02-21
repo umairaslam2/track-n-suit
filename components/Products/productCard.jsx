@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import { addToCart } from "@/GlobalRedux/Slices/addToCart";
 import { getCartItemStart, getCartItemSuccess } from "@/GlobalRedux/Slices/allCartItems";
+import Link from "next/link";
 
 // ProductCard Component (displays a single product)
 const ProductCard = ({ product }) => {
@@ -45,6 +46,7 @@ const ProductCard = ({ product }) => {
   //   getCartProducts()
   // },[dispatch])
   return (
+      <Link href={`/products/${product.PRODUCT_ID}`}>
     <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all group">
       {/* Image Wrapper */}
       <div className="relative h-96 sm:h-full sm:w-full">
@@ -105,7 +107,9 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
       </div>
+
     </div>
+      </Link>
   );
 };
 

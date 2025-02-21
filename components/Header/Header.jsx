@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ImCross } from "react-icons/im";
 import { Input } from "@material-tailwind/react";
@@ -16,7 +16,9 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const { allProducts, isLoader } = useSelector((state) => state.allproducts);
+  // console.log("allProducts-->>>",allProducts)
   const dispatch = useDispatch()
+  const router = useRouter()
   const modalRef = useRef(null); // Reference for the modal container
   useEffect(() => {
     if (pathname === "/") {
@@ -38,8 +40,8 @@ const Header = () => {
   const searchInputByName = (inputValue) => {
     if (!allProducts || !allProducts.length) return [];
     return allProducts.filter((product) =>
-      product.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-      product.description.toLowerCase().includes(inputValue.toLowerCase())
+      product.PRODUCT_NAME.toLowerCase().includes(inputValue.toLowerCase()) ||
+      product.PRODUCT_DESCRIPTION.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
   const handleSearchChange = (e) => {
@@ -66,9 +68,9 @@ const Header = () => {
     }, [showSearchModal]);
   
     const handleResultClick = ( product) => {
-      // console.log(product,"product")
+      console.log(product,"product")
       setShowSearchModal(false); // Close modal
-      router.push(`/products/${product?.name?.replace(/\s+/g, "-")}-${product?._id}`); // Redirect to product page
+      router.push(`/products/${product?.PRODUCT_ID}`); // Redirect to product page
     };
  
 
@@ -187,8 +189,8 @@ const Header = () => {
                         onClick={() => handleResultClick(product)}
                         className="flex  px-2 py-2 text-black gap-3 items-center hover:bg-gray-100 cursor-pointer"
                       >
-                        <span className="flex-shrink-0 overflow-hidden rounded"><img src={product?.images[0]}  alt="imnage" className="h-10 w-10 object-contain"/></span>
-                        <span>{product?.name}</span>
+                        <span className="flex-shrink-0 overflow-hidden rounded"><img src={product?.IMGURL}  alt="imnage" className="h-10 w-10 object-contain"/></span>
+                        <span>{product?.PRODUCT_NAME}</span>
                         
                       </div>
                     ))
