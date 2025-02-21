@@ -189,6 +189,7 @@ export function AllProduct() {
             </thead>
             <tbody >
               {isLoader ?
+                (
                 Array(10)
                   .fill(0)
                   .map((_, index) => (
@@ -202,7 +203,8 @@ export function AllProduct() {
                         </td>
                       ))}
                     </tr>
-                  )) :
+                  )) 
+                ):
                 allProducts?.length < 1 ? <div className="flex justify-center items-center flex-col  min-h-72 md:pl-60 max-w-xl text-4xl ">Currently, there are no products available. Stay tuned—exciting new items are coming soon!</div> :
                   allProducts?.map((item, index) => {
                     const isLast = index === allProducts.length - 1;
@@ -259,7 +261,12 @@ export function AllProduct() {
                         </td>
                       </tr>
                     );
-                  })}
+                  })
+                 (
+                    <div className="col-span-full h-screen text-center text-black flex items-center justify-center text-2xl font-black">
+                      No products found...
+                    </div>
+                  )}
             </tbody>
           </table>
         </CardBody>

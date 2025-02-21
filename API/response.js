@@ -134,7 +134,7 @@ try {
 
 
 // add to cart post request 
-export const AddToCart = async (productId, quantity, route) => {
+export const AddToCart = async (product_id, quantity, route) => {
   const sessionId = getSessionId();
 
   const config = {
@@ -142,10 +142,10 @@ export const AddToCart = async (productId, quantity, route) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "sessionId" : sessionId,
+      "session-id" : sessionId,
     },
     data: {
-      productId,
+      product_id,
       quantity,
     },
   };
@@ -166,7 +166,7 @@ export const getCartItem = async (route, id) => {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
-    "sessionId" : id,
+    "session-id" : id,
   }
 };
 try {

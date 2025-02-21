@@ -2,32 +2,80 @@
 import React, { useEffect } from "react";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "@/API/response";
+import { AddToCart, getAllProducts, getCartItem } from "@/API/response";
 import { getProductStart, getProductSuccess } from "@/GlobalRedux/Slices/allProducts";
 import { errorNotify } from "../Toast";
 import { ToastContainer } from "react-toastify";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import { addToCart } from "@/GlobalRedux/Slices/addToCart";
+import { getCartItemStart, getCartItemSuccess } from "@/GlobalRedux/Slices/allCartItems";
 
 // ProductCard Component (displays a single product)
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+
+  // const getCartProducts = async () => {
+  //   const getSessionId = localStorage.getItem("sessionId")
+  //   try {
+  //     dispatch(getCartItemStart())
+  //     const response = await getCartItem("cart/getCart", getSessionId);
+  //     console.log("response-->>>", response)
+  //     dispatch(getCartItemSuccess(response))
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // add to cart 
+  const handleAddToCart = async (productId, quantity) => {
+    try {
+      const response = await AddToCart(productId, quantity, "cart/addtocart")
+      console.log("response", response.data.product[0])
+      if (response.status == 200) {
+        dispatch(addToCart(response?.data.product[0]))
+        //   // getCartProducts()
+        //   //  const data = {
+        //   //           eventName:"addToCart",
+        //   //           eventData :{
+        //   //            item: response?.data?.cart?.items 
+        //   //           },
+        //   //         }
+        //   //         try {
+        //   //         const res =  await fbConversionAPI(data,"fb-conversion")
+
+        //   //         } catch (error) {
+        //   //         console.log(error)
+        //   //         }
+      }
+      else {
+        console.log(response?.message)
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  };
+  // useEffect(()=>{
+  //   getCartProducts()
+  // },[dispatch])
   return (
     <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all group">
       {/* Image Wrapper */}
       <div className="relative h-96 sm:h-full sm:w-full">
         <img
           src={product.IMGURL} // Ensure your product has an "image" property
-          alt={product.name}
+          alt={product.PRODUCT_NAME}
           className="w-full h-full object-fit bg-center object-top aspect-[330/407]"
         />
         {/* Hover Buttons */}
         <div className="absolute inset-0 flex justify-center items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/70">
           <div
+
             className="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer"
             title="Wishlist"
           >
             <Heart color="red" />
           </div>
           <div
+            onClick={() => handleAddToCart(product?.PRODUCT_ID, 1)}
             className="bg-blue-100 hover:bg-blue-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer"
             title="Add to Cart"
           >
@@ -57,9 +105,8 @@ const ProductCard = ({ product }) => {
               {[...Array(5)].map((_, index) => (
                 <svg
                   key={index}
-                  className={`w-[14px] h-[14px] ${
-                    index < 3 ? "fill-blue-600" : "fill-[#CED5D8]"
-                  }`}
+                  className={`w-[14px] h-[14px] ${index < 3 ? "fill-blue-600" : "fill-[#CED5D8]"
+                    }`}
                   viewBox="0 0 14 13"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -87,7 +134,7 @@ const ProductList = () => {
     try {
       dispatch(getProductStart());
       const response = await getAllProducts(route);
-      console.log("response--->", response);
+      // console.log("response--->", response);
       dispatch(getProductSuccess(response.data));
     } catch (error) {
       errorNotify(error || "Error fetching products");
@@ -97,16 +144,21 @@ const ProductList = () => {
   useEffect(() => {
     getAllProduct();
   }, [dispatch]);
-
+  const { allCartItem, } = useSelector((state) => state.cartItem)
+  console.log("fetch using redux-->>", allCartItem)
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">
-        {isLoader ?
+        {isLoader ? (
           <ProductCardSkeleton />
-        :
-        allProducts && allProducts.map((product, index) => (
-          <ProductCard key={index} product={product} />
-        ))}
+        ) 
+         : allProducts && allProducts.length > 0 ? (
+          allProducts.map((product, index) => <ProductCard key={index} product={product} />)
+        ) : (
+          <div className="col-span-full h-[50vh] text-center text-black flex items-center justify-center text-2xl font-black">
+            No products found.
+          </div>
+        )}
       </div>
       <ToastContainer />
     </div>

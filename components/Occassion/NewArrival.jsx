@@ -7,7 +7,7 @@ const Subscribe = () => {
       <div
         className="absolute top-0 left-0 opacity-75 w-full h-full bg-contain bg-center"
         style={{
-          backgroundImage: 'url("https://www.edrio.com/cdn/shop/files/Tracksuits_Mobile_Size.jpg?v=10356091717680091805")',
+          backgroundImage: 'url("https://img.freepik.com/premium-photo/green-artificial-grass-surface-background-texture_1421-2222.jpg?ga=GA1.1.769418074.1724743994&semt=ais_hybrid")',
           backgroundAttachment: 'fixed',  // This keeps the background fixed
           backgroundPosition: 'center',
           backgroundSize: 'cover',
@@ -26,9 +26,9 @@ const Subscribe = () => {
           <input
             type="email"
             placeholder="Enter your email"
-            className="p-3 rounded-md min-w-[600px]  bg-black placeholder:text-gray-400  text-white focus:outline-none"
+            className="p-3 rounded-md w-full md:min-w-[600px]  bg-black placeholder:text-gray-400  text-white focus:outline-none"
           />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 sm:py-3 sm:px-6 rounded-md">
             Subscribe
           </button>
         </div>
