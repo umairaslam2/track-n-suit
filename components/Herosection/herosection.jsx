@@ -106,9 +106,9 @@ const HeroSection = () => {
       <div
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
         style={{
-          backgroundImage: 'url("Images/trackhero2.webp")',
+          backgroundImage: 'url("Images/product_img.webp")',
           backgroundAttachment: 'fixed',  // This will keep the background fixed
-          backgroundPosition: 'top',
+          backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat:'no-repeat'
         }}

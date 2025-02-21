@@ -8,8 +8,8 @@ import Link from 'next/link';
 const Category = () => {
   const shopItems = [
       {
-          shop: "Women",
-          image: "https://oxfit.com.pk/199-medium_default/women-s-olive-green-poly-fleece-tracksuit.jpg",
+          shop: "New Born",
+          image: "https://img.freepik.com/premium-photo/adorable-baby-boy-asking-hug-with-hands-up_112112-1720.jpg?ga=GA1.1.769418074.1724743994&semt=ais_hybrid",
           
       },
       {
