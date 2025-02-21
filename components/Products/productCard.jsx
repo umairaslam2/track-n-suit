@@ -13,18 +13,17 @@ import { getCartItemStart, getCartItemSuccess } from "@/GlobalRedux/Slices/allCa
 // ProductCard Component (displays a single product)
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-
-  // const getCartProducts = async () => {
-  //   const getSessionId = localStorage.getItem("sessionId")
-  //   try {
-  //     dispatch(getCartItemStart())
-  //     const response = await getCartItem("cart/getCart", getSessionId);
-  //     console.log("response-->>>", response)
-  //     dispatch(getCartItemSuccess(response))
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  const getCartProducts = async () => {
+    const getSessionId = localStorage.getItem("sessionId")
+    try {
+      dispatch(getCartItemStart())
+      const response = await getCartItem("cart/getCart", getSessionId);
+      console.log("response-->>>", response)
+      dispatch(getCartItemSuccess(response))
+    } catch (error) {
+      console.log(error)
+    }
+  }
   // add to cart 
   const handleAddToCart = async (productId, quantity) => {
     try {
@@ -33,18 +32,7 @@ const ProductCard = ({ product }) => {
       if (response.status == 200) {
         dispatch(addToCart(response?.data.product[0]))
         //   // getCartProducts()
-        //   //  const data = {
-        //   //           eventName:"addToCart",
-        //   //           eventData :{
-        //   //            item: response?.data?.cart?.items 
-        //   //           },
-        //   //         }
-        //   //         try {
-        //   //         const res =  await fbConversionAPI(data,"fb-conversion")
-
-        //   //         } catch (error) {
-        //   //         console.log(error)
-        //   //         }
+       
       }
       else {
         console.log(response?.message)
@@ -95,10 +83,10 @@ const ProductCard = ({ product }) => {
           <div className="flex flex-wrap justify-between gap-2 mt-2">
             <div className="flex gap-2">
               <h6 className="text-sm sm:text-base font-bold text-gray-800">
-                ${product.PRICE}
+                RS.{product.PRICE}
               </h6>
               <h6 className="text-sm sm:text-base text-gray-500">
-                <strike>${product.COMPARE_PRICE}</strike>
+                <strike>{product.COMPARE_PRICE}</strike>
               </h6>
             </div>
             <div className="flex items-center gap-0.5">
@@ -125,6 +113,8 @@ const ProductCard = ({ product }) => {
 const ProductList = () => {
   const dispatch = useDispatch();
 
+  const cartStatus = useSelector((state) => state.drawercart.cartStatus);
+  console.log("cart Status pass checking",cartStatus)
   // Retrieve the allProducts state from Redux
   const { allProducts, isLoader } = useSelector((state) => state.allproducts);
 
@@ -134,7 +124,7 @@ const ProductList = () => {
     try {
       dispatch(getProductStart());
       const response = await getAllProducts(route);
-      // console.log("response--->", response);
+      console.log("response--->", response);
       dispatch(getProductSuccess(response.data));
     } catch (error) {
       errorNotify(error || "Error fetching products");
@@ -143,9 +133,9 @@ const ProductList = () => {
 
   useEffect(() => {
     getAllProduct();
-  }, [dispatch]);
+  }, []);
   const { allCartItem, } = useSelector((state) => state.cartItem)
-  console.log("fetch using redux-->>", allCartItem)
+  // console.log("fetch using redux-->>", allCartItem)
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">
@@ -153,7 +143,7 @@ const ProductList = () => {
           <ProductCardSkeleton />
         ) 
          : allProducts && allProducts.length > 0 ? (
-          allProducts.map((product, index) => <ProductCard key={index} product={product} />)
+          allProducts.map((product, index) => <ProductCard key={index} product={product} cartStatus={cartStatus} />)
         ) : (
           <div className="col-span-full h-[50vh] text-center text-black flex items-center justify-center text-2xl font-black">
             No products found.

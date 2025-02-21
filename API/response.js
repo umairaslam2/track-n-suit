@@ -214,11 +214,11 @@ export const DeleteCart = async ( productId ,route) => {
   method: "DELETE",
   headers: {
     "Content-Type": "application/json",
-    "sessionId" : sessionId,
+    "session-id" : sessionId,
   },
   data:{
-    sessionId: sessionId,
-    productId: productId,
+    //sessionId: sessionId,
+    product_id: productId,
   }
   
 };
@@ -239,11 +239,10 @@ export const EditCart = async (productId , route,  quantity ) => {
     method: "PUT",
     headers: {
      "Content-Type": "application/json",
-      "sessionId" : sessionId,
+      "session-id" : sessionId,
     },
     data:{
-        sessionId: sessionId,
-        productId: productId,
+        product_id: productId,
         quantity
     }
   };

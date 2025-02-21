@@ -14,19 +14,62 @@ export const cartSlice = createSlice({
     },
     getCartItemSuccess: (state,action) => {
         state.isLoader= false
-        state.allCartItem = action.payload
+        const products = action.payload.products || [];
+        const cartItems = action.payload.cartItems || [];
+        
+        // Merge quantity into products
+        const updatedProducts = products.map((product) => {
+            const cartItem = cartItems.find((item) => item.PRODUCT_ID === product.PRODUCT_ID);
+            return {
+                ...product,
+                Cart_Quantity: cartItem ? cartItem.QUANTITY : 0, // Attach quantity
+            };
+        });
+    
+        state.allCartItem = updatedProducts;
     },
-    deleteCart: (state,action) => {
-      state.isLoader = true
-      state.allCartItem.items = state.allCartItem?.items?.filter((elem)=>elem.productId._id !== action.payload)
-      state.isLoader = false
+    // deleteCart: (state,action) => {
+     
+    //   if (!Array.isArray(state.allCartItem)) {
+    //     state.allCartItem = [];
+    //   }
+    
+    //   // Assign the filtered result to the state
+    //   state.allCartItem.products = state.allCartItem?.products?.filter(
+    //     (elem) => elem.PRODUCT_ID !== action.payload
+    //   );
+    
+    //   console.log("After delete, allCartItem:", state.allCartItem);
 
-    },
+    // },
+    deleteCart: (state, action) => {
+      // console.log("Before delete, allCartItem:", state.allCartItem);
+  
+      if (!Array.isArray(state.allCartItem)) {
+          state.allCartItem.products = [];
+      }
+  
+      if (!Array.isArray(state.allCartItem)) {
+          state.allCartItem = [];
+      }
+  
+      // Mutate state directly instead of reassigning
+      state.allCartItem = state.allCartItem.filter(
+          (product) => product.PRODUCT_ID !== action.payload
+      );
+  
+      // state.allCartItem = state.allCartItem.cartItems.filter(
+      //     (cartItem) => cartItem.PRODUCT_ID !== action.payload
+      // );
+  
+      // console.log("After delete, allCartItem:", state.allCartItem);
+  },
+    
     updateCart: (state,action) => {
       const { productId, quantity } = action.payload;
-      state.allCartItem.items = state.allCartItem?.items?.map((item) =>
-        item.productId._id === productId
-          ? { ...item, quantity: quantity }
+      state.allCartItem = state.allCartItem.map((item) =>
+        item.PRODUCT_ID === productId
+          ? { ...item, Cart_Quantity: quantity }
           : item
       );
     },

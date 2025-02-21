@@ -7,16 +7,16 @@ import Link from "next/link";
 import React from "react";
 import { FaMinus, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader }) => {
+const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity }) => {
   const dispatch = useDispatch()
-  // console.log(cartData)
+  // console.log("cart items",cartData)
   // edit cart quantity
   const handleIncrement = async (item) => {
     try {
-      const newQuantity = item.quantity + 1;
-      let response = await EditCart(item.productId._id, "cart/editCartItem", newQuantity);
-      // console.log(response) 
-      dispatch(updateCart({ productId: item.productId._id, quantity: newQuantity }));
+      const newQuantity = item.Cart_Quantity + 1;
+      let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
+      // console.log("response decrease -->>>",response) 
+      dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
     } catch (error) {
       console.error("Error updating quantity:", error);
     }
@@ -24,11 +24,11 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader }) => {
 
   const handleDecrement = async (item) => {
     try {
-      if (item.quantity > 1) {
-        const newQuantity = item.quantity - 1;
-        let response = await EditCart(item.productId._id, "cart/editCartItem", newQuantity);
-        // console.log(response) 
-        dispatch(updateCart({ productId: item.productId._id, quantity: newQuantity }));
+      if (item.Cart_Quantity > 1) {
+        const newQuantity = item.Cart_Quantity - 1;
+        let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
+        // console.log("response decrease -->>>",response) 
+        dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
@@ -37,9 +37,12 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader }) => {
   // remove cart
   const handleRemoveFromCart = async (id) => {
     // console.log(id)
-    const response = await DeleteCart(id, "cart/deleteCartItem")
-    // console.log(response)
-    dispatch(deleteCart(id))
+    const response = await DeleteCart(id, "cart/delete")
+    console.log(response)
+    if(response.status){
+      dispatch(deleteCart(id))
+
+    }
     // dispatch(removeFromCart(id)); 
   };
 
@@ -81,35 +84,35 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader }) => {
       ) : (
         <div className="space-y-4">
           {/* Cart Items */}
-          {cartData && cartData.items?.length > 0 ? (
-            cartData.items.map((item, index) => (
+          {cartData && cartData?.length > 0 ? (
+            cartData?.map((item, index) => (
               <div key={index} className="flex flex-col  justify-between p-3 bg-gray-100 rounded-lg">
                 <div className="flex justify-between">
-                  <img src={item.productId.images[0]} className="w-20 h-20" alt="" />
+                  <img src={item?.IMGURL} className="w-20 h-20" alt="" />
                   <div className="flex items-center gap-4 mt-4">
                     <button onClick={() => handleDecrement(item)} className="p-2 bg-gray-200 rounded-full">
                       <FaMinus />
                     </button>
-                    <span className="mx-2.5">{item?.quantity}</span>
+                    <span className="mx-2.5">{item.Cart_Quantity}</span>
                     <button onClick={() => handleIncrement(item)} className="p-2 bg-gray-200 rounded-full">
                       <FaPlus />
                     </button>
                   </div>
                   <span>
-                    <FaRegTrashAlt onClick={() => handleRemoveFromCart(item?.productId._id)} className="hover:cursor-pointer text-red-500" />
+                    <FaRegTrashAlt onClick={() => handleRemoveFromCart(item?.PRODUCT_ID)} className="hover:cursor-pointer text-red-500" />
                   </span>
                 </div>
                 <div>
                   <Typography variant="small" className="py-3" color="blue-gray">
-                    {item.productId.name.slice(0, 40)}..
+                    {item?.PRODUCT_NAME.slice(0, 40)}..
                   </Typography>
                 </div>
                 <div className="flex justify-between">
                   <Typography variant="normal" className="text-md font-bold" color="gray">
-                   RS:{item?.productId?.price * item?.quantity}
+                   RS:{item?.PRICE * item?.Cart_Quantity}
                   </Typography>
                   <Typography variant="small" className="text-sm font-bold" color="blue-gray">
-                    x{item.quantity}
+                    x{item?.Cart_Quantity}
                   </Typography>
                 </div>
               </div>
@@ -124,7 +127,7 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader }) => {
       )}
 
       {/* Checkout Button */}
-      {!loader && cartData.items?.length > 0 && (
+      {!loader && cartData?.length > 0 && (
         <div className="mt-6 flex gap-3 ">
          
           <Button variant="outlined" onClick={()=>{ dispatch(toggleDrawer())}}  className=" text-black" color="green">
