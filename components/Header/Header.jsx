@@ -18,7 +18,6 @@ const Header = () => {
   const { allProducts, isLoader } = useSelector((state) => state.allproducts);
   const dispatch = useDispatch()
   const modalRef = useRef(null); // Reference for the modal container
-console.log(showSearchModal)
   useEffect(() => {
     if (pathname === "/") {
       const handleScroll = () => {
@@ -90,7 +89,7 @@ console.log(showSearchModal)
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between ">
             <Link href={'/'} >
-            <img src="/Images/tracklogo2.png" className="h-24 md:w-44 my-2 rounded-full md:rounded-xl mix-blend-difference bg-white  " alt="" />
+            <img src="/Images/tracklogo2.png" className="h-20 sm:h-24 md:w-44 my-2 rounded-full md:rounded-xl mix-blend-difference bg-white  " alt="" />
             </Link>
 
         {/* Desktop Menu Left */}
@@ -133,7 +132,7 @@ console.log(showSearchModal)
       >
         <div className="flex items-center justify-between p-4 border-b">
         <Link href={'/'} >
-            <img src="/Images/tracklogo2.png" className="h-24 md:w-44 my-2 rounded-full md:rounded-xl mix-blend-difference bg-white  " alt="" />
+            <img src="/Images/tracklogo2.png" className="h-20 sm:h-24 md:w-44 my-2 rounded-full md:rounded-xl mix-blend-difference bg-white  " alt="" />
             </Link>
           {/* <div className="text-2xl font-bold">Menu</div> */}
           <FiX className="text-2xl cursor-pointer" onClick={toggleMobileMenu} />
