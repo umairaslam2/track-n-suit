@@ -53,7 +53,7 @@ const Contact = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-200 flex justify-center items-center">
+    <div className="min-h-screen bg-gray-200 pt-20 flex justify-center items-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

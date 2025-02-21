@@ -207,7 +207,7 @@ const handleSubmit = async(values, {resetForm})=>{
         <Image
           height={500}
           width={500}
-          src="/Images/tracknsuit-logo-white.png"
+          src="/Images/tracklogo2.png"
           alt="Logo"
           className="h-32  w-full bg-white rounded-full object-contain"
           />
