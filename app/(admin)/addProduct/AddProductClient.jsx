@@ -70,8 +70,8 @@ export function AddProductClient() {
 
   });
   const handleSubmit = async (values, { resetForm }) => {
-    console.log("values-->>>", values)
-    console.log("data Files-->>>", dataFiles)
+    // console.log("values-->>>", values)
+    // console.log("data Files-->>>", dataFiles)
     // setIsSubmitting(true);
     const route = 'products/add'
     const data = new FormData()
@@ -87,7 +87,7 @@ export function AddProductClient() {
     
     try {
       const response = await productAdd(route, data)
-      console.log("response--->>>>", response)
+      // console.log("response--->>>>", response)
       if (response.status) {
         successNotify(response.message)
         setFileNames([])

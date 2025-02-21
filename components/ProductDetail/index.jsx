@@ -34,8 +34,6 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
   const { allProducts, isLoader } = useSelector((state) => state.allproducts)
   // const filteredProducts = allProducts?.filter((item) => item.category == category)
   const { allCartItem, } = useSelector((state) => state.cartItem)
-  console.log("price ",price)
-  console.log("comparePrice ",comparePrice)
   // console.log("cart data",cartData)
  
   // for discount % 
@@ -155,7 +153,7 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
     <div className="text-center md:text-left md:mt-16 md:max-w-lg">
       <h1 className="text-2xl font-bold">{title}</h1>
 
-      <p className="text-gray-600 underline cursor-pointer mt-2">Write a review</p>
+      {/* <p className="text-gray-600 underline cursor-pointer mt-2">Write a review</p> */}
       <p className="text-lg font-semibold mt-2">Price</p>
       <p className="text-xl text-red-500 font-bold">
         <span className="line-through text-gray-500 mr-2">Rs.{comparePrice}</span>
@@ -166,9 +164,9 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
       <div className="mt-4 flex items-center justify-center md:justify-start gap-2">
         <p className="font-medium text-xl ">Quantity</p>
         <div className="flex items-center border px-3 py-1 rounded-lg gap-4">
-          <button className="text-xl">-</button>
-          <span className="text-lg">1</span>
-          <button className="text-xl">+</button>
+          <button className="text-xl" onClick={decreaseCount}>-</button>
+          <span className="text-lg">{count}</span>
+          <button className="text-xl" onClick={addCount}>+</button>
         </div>
       </div>
 
@@ -183,7 +181,7 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
 
       {/* Buttons */}
       <div className="mt-6 space-y-2">
-        <button className="w-full border py-3 rounded-lg font-semibold">Add to cart</button>
+        <button onClick={onAddToCart} className="w-full border py-3 rounded-lg font-semibold">Add to cart</button>
         <button className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold">Buy it now</button>
       </div>
     </div>

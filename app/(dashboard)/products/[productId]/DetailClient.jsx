@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import { getCartItemStart, getCartItemSuccess } from '@/GlobalRedux/Slices/allCartItems';
 import { toggleDrawer } from '@/GlobalRedux/Slices/drawerCart';
 const ProductDetails = ({ response }) => {
-  console.log("client page ",response)
+  // console.log("client page ",response)
   const dispatch = useDispatch()
   const [singleData,setSingleData] = useState('')
   const [isLoading,setIsLoading] = useState(false)
@@ -34,7 +34,7 @@ const ProductDetails = ({ response }) => {
       // const route = `products/${Id}`
          setIsLoading(true)
         // const response = await getSingleProducts(route)
-        console.log("response--->>>>", response.data[0])
+        // console.log("response--->>>>", response.data[0])
         setSingleData(response.data[0])
         setIsLoading(false)
       } catch (error) {
@@ -53,27 +53,27 @@ const ProductDetails = ({ response }) => {
     }
   }
   // add to cart 
-     const handleAddToCart = async (productId, quantity) => {
-       dispatch(toggleDrawer())
-       try {
-       const response =await AddToCart(productId, quantity,"cart/addToCart")
-         if(response.status == 200){
-           dispatch(addToCart(response?.data?.cart?.items))
-           getCartProducts()
-           setCount(1)
+       const handleAddToCart = async (productId, quantity) => {
+         try {
+           const response = await AddToCart(productId, quantity, "cart/addtocart")
+           console.log("response", response.data.product[0])
+           if (response.status == 200) {
+             dispatch(addToCart(response?.data.product[0]))
+             //   // getCartProducts()
+            
+           }
+           else {
+             console.log(response?.message)
+           }
+         } catch (error) {
+           console.log("error", error)
          }
-         else{
-           console.log(response.message)
-         }
-       } catch (error) {
-         console.log("error",error)
-       }
-     };
+       };
      const handleAddToCartInSm = async (productId, quantity) => {
       //  dispatch(toggleDrawer())
        try {
-       const response =await AddToCart(productId, quantity,"cart/addToCart")
-         if(response.status == 200){
+       const response =await AddToCart(productId, quantity,"cart/addtocart")
+         if(response.status){
            dispatch(addToCart(response?.data?.cart?.items))
            getCartProducts()
            setCount(1)

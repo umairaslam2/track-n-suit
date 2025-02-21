@@ -68,7 +68,7 @@ const Header = () => {
     }, [showSearchModal]);
   
     const handleResultClick = ( product) => {
-      console.log(product,"product")
+      // console.log(product,"product")
       setShowSearchModal(false); // Close modal
       router.push(`/products/${product?.PRODUCT_ID}`); // Redirect to product page
     };

@@ -96,7 +96,7 @@ try {
 };
 // update  product
 export const EditProduct = async (route,  data ) => { 
-  console.log("API call time data ",data)
+  // console.log("API call time data ",data)
   const config = {
     url: URL + route, 
     method: "PUT",

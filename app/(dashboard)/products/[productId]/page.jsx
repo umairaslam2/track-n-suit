@@ -15,7 +15,7 @@ const ProductDetails = async ({ params }) => {
   const route = `products/get/${productId}`
   try {
     const response = await getSingleProducts(route)
-    console.log(response)
+    // console.log(response)
     return (
       <Suspense fallback={<ProductDetailSkeleton/>}>
       <DetailClient response = {response}/>
