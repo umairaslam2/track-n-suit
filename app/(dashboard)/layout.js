@@ -4,6 +4,7 @@ import "../globals.css";
 import { Providers } from "@/GlobalRedux/Provider";
 import { AnimatePresence } from "framer-motion";
 import DrawerComp from "./DrawerComp";
+import AlertComp from "./AlertComp";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
             {children}
             </AnimatePresence>
           </main>
+          <AlertComp/>
           <Footer />
         </Providers>
       </body>

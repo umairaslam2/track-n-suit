@@ -9,9 +9,7 @@ const ProductDetails = async ({ params }) => {
     return parts[parts.length - 1]; // Get the last part as ID
   };
   const { productId } = params
-  // const Id = extractId(productId);
-  // console.log("ID --->>>>>>>>>",productId)
-  // console.log("producty ID --->>>>>>>>>",Id)
+ 
   const route = `products/get/${productId}`
   try {
     const response = await getSingleProducts(route)
@@ -24,7 +22,7 @@ const ProductDetails = async ({ params }) => {
     
   } catch (error) {
     console.log(error ||response.message)
-    return <p>Error loading products</p>;
+    return <p className='z-50 font-body text-xl  flex justify-center items-center '>Error loading products</p>;
 
   }
 }

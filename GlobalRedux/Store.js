@@ -6,6 +6,8 @@ import AllCartReducer from './Slices/allCartItems'
 import AddCartReducer from './Slices/addToCart'
 import AllOrdersReducer from './Slices/allOrders'
 import DrawerCartReducer from './Slices/drawerCart'
+import AlertCartReducer from './Slices/alertCart'
+
 import {
   persistStore,
   persistReducer,
@@ -32,6 +34,7 @@ const rootReducer = combineReducers({
   orders: AllOrdersReducer,
   cart: AddCartReducer,
   drawercart: DrawerCartReducer,
+  alertcart: AlertCartReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

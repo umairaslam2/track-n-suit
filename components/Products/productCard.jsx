@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AddToCart, getAllProducts, getCartItem } from "@/API/response";
@@ -7,46 +7,62 @@ import { getProductStart, getProductSuccess } from "@/GlobalRedux/Slices/allProd
 import { errorNotify } from "../Toast";
 import { ToastContainer } from "react-toastify";
 import ProductCardSkeleton from "./ProductCardSkeleton";
-import { addToCart } from "@/GlobalRedux/Slices/addToCart";
+import { addToCart, addToCartFailure, addToCartStart } from "@/GlobalRedux/Slices/addToCart";
 import { getCartItemStart, getCartItemSuccess } from "@/GlobalRedux/Slices/allCartItems";
 import Link from "next/link";
+import { toggleDrawer } from "@/GlobalRedux/Slices/drawerCart";
+import { closeAlert, openAlert } from "@/GlobalRedux/Slices/alertCart";
 
 // ProductCard Component (displays a single product)
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) => {
   const dispatch = useDispatch();
-  const getCartProducts = async () => {
-    const getSessionId = localStorage.getItem("sessionId")
-    try {
-      dispatch(getCartItemStart())
-      const response = await getCartItem("cart/getCart", getSessionId);
-      console.log("response-->>>", response)
-      dispatch(getCartItemSuccess(response))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  // add to cart 
+  // add to cart for large screen 
   const handleAddToCart = async (productId, quantity) => {
     try {
+      dispatch(addToCartStart());
       const response = await AddToCart(productId, quantity, "cart/addtocart")
-      console.log("response", response.data.product[0])
+      // console.log("response", response.data.product[0])
       if (response.status == 200) {
         dispatch(addToCart(response?.data.product[0]))
-        //   // getCartProducts()
+        getAllCartItems()
+        dispatch(toggleDrawer())
        
       }
       else {
         console.log(response?.message)
+        dispatch(addToCartFailure());
       }
     } catch (error) {
       console.log("error", error)
+      dispatch(addToCartFailure());
+
     }
   };
-  // useEffect(()=>{
-  //   getCartProducts()
-  // },[dispatch])
+  // add to cart for  mobile screen 
+  const handleAddToCartInSm = async (productId, quantity) => {
+    try {
+      dispatch(addToCartStart());
+      const response = await AddToCart(productId, quantity, "cart/addtocart")
+      // console.log("response", response.data.product[0])
+      if (response.status == 200) {
+        dispatch(addToCart(response?.data.product[0]))
+        alertShow()
+       
+      }
+      else {
+        console.log(response?.message)
+        dispatch(addToCartFailure());
+
+      }
+    } catch (error) {
+      console.log("error", error)
+      dispatch(addToCartFailure());
+
+    }
+  };
+ 
   return (
-      <Link href={`/products/${product.PRODUCT_ID}`}>
+      // <Link href={`/products/${product.PRODUCT_ID}`}>
     <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all group">
       {/* Image Wrapper */}
       <div className="relative h-96 sm:h-full sm:w-full">
@@ -58,7 +74,7 @@ const ProductCard = ({ product }) => {
         {/* Hover Buttons */}
         <div className="absolute inset-0 flex justify-center items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/70">
           <div
-
+           
             className="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer"
             title="Wishlist"
           >
@@ -66,10 +82,17 @@ const ProductCard = ({ product }) => {
           </div>
           <div
             onClick={() => handleAddToCart(product?.PRODUCT_ID, 1)}
-            className="bg-blue-100 hover:bg-blue-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer"
+            className="bg-blue-100 hover:bg-blue-200 w-12 h-9 hidden lg:flex items-center justify-center rounded cursor-pointer"
             title="Add to Cart"
           >
-            <ShoppingCart />
+          {addToCartLoader ? <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>:  <ShoppingCart />}
+          </div>
+          <div
+            onClick={() => handleAddToCartInSm(product?.PRODUCT_ID, 1)}
+            className="bg-blue-100 hover:bg-blue-200 w-12 h-9 lg:hidden  flex items-center justify-center rounded cursor-pointer"
+            title="Add to Cart"
+          >
+            {addToCartLoader ? <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>:  <ShoppingCart />}
           </div>
         </div>
       </div>
@@ -109,16 +132,33 @@ const ProductCard = ({ product }) => {
       </div>
 
     </div>
-      </Link>
   );
 };
 
 // ProductList Component (displays the list of products)
 const ProductList = () => {
   const dispatch = useDispatch();
+  const [addToCartLoader, setAddTocartLoader] = useState(false)
+  const getCartProducts = async () => {
+    const getSessionId = localStorage.getItem("sessionId")
+    try {
+      dispatch(getCartItemStart())
+      const response = await getCartItem("cart/getCart", getSessionId);
+      console.log("response-->>>", response)
+      dispatch(getCartItemSuccess(response))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  const showAlert = () => {
+    dispatch(openAlert())
+    setTimeout(()=>{
+      dispatch(closeAlert())
+    },3000)
+  }
   const cartStatus = useSelector((state) => state.drawercart.cartStatus);
-  console.log("cart Status pass checking",cartStatus)
+  // console.log("cart Status pass checking",cartStatus)
   // Retrieve the allProducts state from Redux
   const { allProducts, isLoader } = useSelector((state) => state.allproducts);
 
@@ -128,7 +168,7 @@ const ProductList = () => {
     try {
       dispatch(getProductStart());
       const response = await getAllProducts(route);
-      console.log("response--->", response);
+      // console.log("response--->", response);
       dispatch(getProductSuccess(response.data));
     } catch (error) {
       errorNotify(error || "Error fetching products");
@@ -138,8 +178,9 @@ const ProductList = () => {
   useEffect(() => {
     getAllProduct();
   }, []);
-  const { allCartItem, } = useSelector((state) => state.cartItem)
-  // console.log("fetch using redux-->>", allCartItem)
+  const { allCartItem,} = useSelector((state) => state.cartItem)
+  const {  cartLoader} = useSelector((state) => state.cart)
+  console.log("cart loader-->>", cartLoader)
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">
@@ -147,7 +188,7 @@ const ProductList = () => {
           <ProductCardSkeleton />
         ) 
          : allProducts && allProducts.length > 0 ? (
-          allProducts.map((product, index) => <ProductCard key={index} product={product} cartStatus={cartStatus} />)
+          allProducts.map((product, index) => <ProductCard key={index} product={product} cartStatus={cartStatus} getAllCartItems={getCartProducts}  alertShow={showAlert}  addToCartLoader={cartLoader}/>)
         ) : (
           <div className="col-span-full h-[50vh] text-center text-black flex items-center justify-center text-2xl font-black">
             No products found.
