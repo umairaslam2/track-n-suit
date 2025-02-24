@@ -1,16 +1,22 @@
 "use client";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export function PaymentCard({shippingPrice, }) {
   // console.log(shippingPrice)
+  const [cartData, setCartData] = useState([]);
+    useEffect(() => {
+      const storedCart = JSON.parse(localStorage.getItem("addCart")) || [];
+      setCartData(storedCart);
+    }, []); 
  // payment card
  const {allCartItem,isLoader} = useSelector((state)=> state.cartItem)
   //  console.log("get all cart item ", allCartItem)
-   const Comparetotal = allCartItem?.reduce((acc, item)=> acc + (Number(item.COMPARE_PRICE|| 0)*item?.Cart_Quantity),0)
-  //  console.log("Comparetotal",Comparetotal)
-   const subtotal = allCartItem?.reduce((acc, item)=> acc + (Number(item.PRICE || 0)*item?.Cart_Quantity),0)
-  //  console.log("subtotal ",subtotal)
+   const Comparetotal = cartData?.reduce((acc, item)=> acc + (Number(item.COMPARE_PRICE|| 0)*item?.PRODUCT_QUANTITY),0)
+   console.log("Comparetotal",Comparetotal)
+   const subtotal = cartData?.reduce((acc, item)=> acc + (Number(item.PRICE || 0)*item?.PRODUCT_QUANTITY),0)
+   console.log("subtotal ",subtotal)
    
    //  const shipping = shippingPrice;
    const discount = Comparetotal - subtotal;
@@ -21,15 +27,15 @@ export function PaymentCard({shippingPrice, }) {
     const Paymentcard = [
     {
       name: " Price ",
-      price: allCartItem?.length > 0 || null ? Comparetotal : 0
+      price: cartData?.length > 0 || null ? Comparetotal : 0
     },
     {
       name: "Discount",
-      price:  allCartItem?.length > 0 || null ?  discount : 0
+      price:  cartData?.length > 0 || null ?  discount : 0
     },
     {
       name: " Total",
-      price:  allCartItem?.length > 0 || null ? subtotal : 0
+      price:  cartData?.length > 0 || null ? subtotal : 0
     },
   //   {
   //     name: "Tax",
@@ -37,11 +43,11 @@ export function PaymentCard({shippingPrice, }) {
   //   },
     {
       name: "Shipping",
-      price: allCartItem?.length > 0 || null ?  shippingPrice : 0 ,
+      price: cartData?.length > 0 || null ?  shippingPrice : 0 ,
     },
     {
       name: "Total",
-      price: allCartItem?.length > 0 || null ? total.toFixed() :0,
+      price: cartData?.length > 0 || null ? total.toFixed() :0,
     },
   ];
   return (

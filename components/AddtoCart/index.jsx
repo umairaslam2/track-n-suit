@@ -8,7 +8,7 @@ export const  AddCart = () => {
   return (
     <div className='py-5 pt-28 grid  grid-cols-1 md:grid-cols-2 '>
       <span>
-        <span className='fontbold text-4xl'> Cart</span>
+        <span className='fontbold text-4xl'>Your Cart</span>
         <span>
         <StepperCard shippingPrice={shippingPrice} setShippingPrice={setShippingPrice}/>
         </span>
