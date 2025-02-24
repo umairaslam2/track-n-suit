@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { getCartItemStart, getCartItemSuccess } from '@/GlobalRedux/Slices/allCartItems';
 import { toggleDrawer } from '@/GlobalRedux/Slices/drawerCart';
+import { closeAlert, openAlert } from '@/GlobalRedux/Slices/alertCart';
 const ProductDetails = ({ response }) => {
   // console.log("client page ",response)
   const dispatch = useDispatch()
@@ -41,49 +42,51 @@ const ProductDetails = ({ response }) => {
         errorNotify(error ||response.message)
       }
   }
-  // get cart items
-  const getCartProducts = async () => {
-    const getSessionId = localStorage.getItem("sessionId")
-    try {
-      dispatch(getCartItemStart())
-      const response = await getCartItem("cart/getCart", getSessionId);
-      dispatch(getCartItemSuccess(response))
-    } catch (error) {
-      console.log(error)
+    const showAlert = () => {
+      dispatch(openAlert())
+      setTimeout(()=>{
+        dispatch(closeAlert())
+      },3000)
     }
-  }
   // add to cart 
-       const handleAddToCart = async (productId, quantity) => {
-         try {
-           const response = await AddToCart(productId, quantity, "cart/addtocart")
-           console.log("response", response.data.product[0])
-           if (response.status == 200) {
-             dispatch(addToCart(response?.data.product[0]))
-             //   // getCartProducts()
-            
-           }
-           else {
-             console.log(response?.message)
-           }
-         } catch (error) {
-           console.log("error", error)
-         }
-       };
-     const handleAddToCartInSm = async (productId, quantity) => {
-      //  dispatch(toggleDrawer())
-       try {
-       const response =await AddToCart(productId, quantity,"cart/addtocart")
-         if(response.status){
-           dispatch(addToCart(response?.data?.cart?.items))
-           getCartProducts()
-           setCount(1)
-         }
-         else{
-           console.log(response.message)
-         }
-       } catch (error) {
-         console.log("error",error)
-       }
+  const handleAddToCart = (cartItem, quantity) => {
+    let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+
+    // Check if the item already exists in the cart
+    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+
+    if (itemIndex !== -1) {
+        // If item exists, update quantity based on user input
+        existingCart[itemIndex].PRODUCT_QUANTITY += quantity;
+    } else {
+        // If item does not exist, set quantity to the user-selected value
+        existingCart.push({ ...cartItem, PRODUCT_QUANTITY: quantity });
+    }
+
+    // Update Local Storage
+    localStorage.setItem("addCart", JSON.stringify(existingCart));
+
+    // Open Drawer
+    dispatch(toggleDrawer());
+};
+
+     const handleAddToCartInSm = async (cartItem, quantity) => {
+      let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+
+    // Check if the item already exists in the cart
+    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+
+    if (itemIndex !== -1) {
+        // If item exists, update quantity based on user input
+        existingCart[itemIndex].PRODUCT_QUANTITY += quantity;
+    } else {
+        // If item does not exist, set quantity to the user-selected value
+        existingCart.push({ ...cartItem, PRODUCT_QUANTITY: quantity });
+    }
+
+    // Update Local Storage
+    localStorage.setItem("addCart", JSON.stringify(existingCart));
+    showAlert()
      };
   useEffect(()=>{
     getSingleProduct()
@@ -97,7 +100,7 @@ const ProductDetails = ({ response }) => {
         {
           isLoading? <span className='flex-grow max-w-screen-xl h-screen'><ProductDetailSkeleton/></span> : 
        <ProductDetail url={singleData.IMGURL ? singleData.IMGURL:`/Images/logoNew.png`} allFile={singleData.IMGURL} cartData={singleData} title={singleData?.PRODUCT_NAME} price={singleData?.PRICE} category={singleData.category}  comparePrice={singleData.COMPARE_PRICE}  
-        description={singleData?.PRODUCT_DESCRIPTION}  onAddToCart={() => handleAddToCart(singleData.PRODUCT_ID,count)} onAddToCartInSm={() => handleAddToCartInSm(singleData.PRODUCT_ID,count)} addCount={addCount} decreaseCount ={decreaseCount} count={count}  /> 
+        description={singleData?.PRODUCT_DESCRIPTION}  onAddToCart={() => handleAddToCart(singleData,count)} onAddToCartInSm={() => handleAddToCartInSm(singleData,count)} addCount={addCount} decreaseCount ={decreaseCount} count={count}  /> 
         }
        </span>
        <ToastContainer/>

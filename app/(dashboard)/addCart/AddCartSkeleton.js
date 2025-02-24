@@ -2,7 +2,7 @@ import React from 'react';
 
 export const AddCartSkeleton = () => {
   return (
-    <div className='py-5 grid grid-cols-1 md:grid-cols-2 gap-8'>
+    <div className='py-5 pt-28 grid grid-cols-1 md:grid-cols-2 gap-8'>
       {/* Skeleton for StepperCard */}
       <div>
         <div className='animate-pulse'>

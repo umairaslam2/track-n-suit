@@ -11,7 +11,7 @@ import Subscribe from '@/components/Occassion/NewArrival'
 import Category from '@/components/Category'
 // import HomePageSkeleton from './homePageSkeleton'
 
-const HomeClientPage = ({data}) => {
+const HomeClientPage = () => {
   const { isUser } = useSelector((state) => state.currUser)
  
   const router = useRouter()

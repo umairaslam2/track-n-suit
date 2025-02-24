@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, } from "react";
+import React, { useEffect, useState, } from "react";
 import { Stepper, Step, Button, } from "@material-tailwind/react";
 import { BsCreditCard2Front } from "react-icons/bs";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -11,63 +11,44 @@ import { FaCheckCircle, FaRegTrashAlt } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import Image from "next/image";
 import { rgbDataURL } from "@/utils/rgbDtaurl";
-// import { removeFromCart } from "@/app/Redux/Slices/addToCart";
 export function StepperCard({ shippingPrice, setShippingPrice }) {
+      const [cartData, setCartData] = useState([]);
+  
   // get all cart items
   const dispatch = useDispatch()
-  const { allCartItem, isLoader } = useSelector((state) => state.cartItem)
-  // console.log("get all cart item ", allCartItem)
-  const getCartProducts = async () => {
-    const getSessionId = localStorage.getItem("sessionId")
-    try {
-      dispatch(getCartItemStart())
-      const response = await getCartItem("cart/getCart", getSessionId);
-      dispatch(getCartItemSuccess(response))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
-    getCartProducts()
-  }, [])
+    const storedCart = JSON.parse(localStorage.getItem("addCart")) || [];
+    setCartData(storedCart);
+  }, []); 
   // delete cart item
-   const handleRemoveFromCart = async (id) => {
-     dispatch(deleteCart(id))
-     try {
-       if (response.status) {
-         const response = await DeleteCart(id, "cart/delete")
-         // console.log(response)
-       }
-     } catch (error) {
-       console.log(error)
-     }
-   };
-  // edit cart quantity
-  const handleIncrement = async (item) => {
-    try {
-      const newQuantity = item.Cart_Quantity + 1;
-      let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
-      // console.log("response increase -->>>", response)
-      dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
+  
+  const handleIncrement = (item) => {
+    let updatedCart = cartData.map(ele => 
+      ele.PRODUCT_ID === item.PRODUCT_ID
+        ? { ...ele, PRODUCT_QUANTITY: ele.PRODUCT_QUANTITY + 1 }
+        : ele
+    );
+  
+    setCartData(updatedCart);
+    localStorage.setItem("addCart", JSON.stringify(updatedCart));
   };
-  // edit cart quantity
-  const handleDecrement = async (item) => {
-    try {
-      if (item.Cart_Quantity > 1) {
-        const newQuantity = item.Cart_Quantity - 1;
-        let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
-        // console.log("response decrease -->>>", response)
-        dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
-      }
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
+  
+  const handleDecrement = (item) => {
+    let updatedCart = cartData.map(ele => 
+      ele.PRODUCT_ID === item.PRODUCT_ID
+        ? { ...ele, PRODUCT_QUANTITY: Math.max(ele.PRODUCT_QUANTITY - 1, 1) } // Prevents going below 1
+        : ele
+    );
+  
+    setCartData(updatedCart);
+    localStorage.setItem("addCart", JSON.stringify(updatedCart));
   };
-
+  
+  const handleRemoveFromCart = (productId) => {
+    const updatedCart = cartData.filter((ele) => ele.PRODUCT_ID !== productId);
+    setCartData(updatedCart);
+    localStorage.setItem("addCart", JSON.stringify(updatedCart)); 
+  };
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -86,22 +67,9 @@ export function StepperCard({ shippingPrice, setShippingPrice }) {
                 <h2 className="text-2xl font-bold text-gray-800">Cart</h2>
                 <hr className="border-gray-300 mt-4 mb-8" />
                 {
-                  isLoader ? (
-                    <div className="space-y-4">
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <div key={index} className="p-6 w-full h-full flex items-center bg-gray-200 shadow-md rounded-lg animate-pulse space-x-6">
-                          <div className="w-24 h-24 bg-gray-300 rounded-lg"></div>
-                          <div className="flex flex-col justify-between gap-2">
-                            <div className="h-6 bg-gray-300 rounded w-48"></div>
-                            <div className="h-4 bg-gray-300 rounded w-24"></div>
-                            <div className="h-4 bg-gray-300 rounded w-32"></div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) :
-                    allCartItem?.length > 0 ?
-                      allCartItem?.map((item, index) => (
+                 
+                  cartData?.length > 0 ?
+                  cartData?.map((item, index) => (
 
                         <div key={index} className="sm:space-y-4 pb-5">
                           <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
@@ -132,7 +100,7 @@ export function StepperCard({ shippingPrice, setShippingPrice }) {
                                   <button onClick={() => handleDecrement(item)} className="p-2 bg-gray-200 rounded-full">
                                     <FaMinus />
                                   </button>
-                                  <span className="mx-2.5">{item?.Cart_Quantity}</span>
+                                  <span className="mx-2.5">{item?.PRODUCT_QUANTITY}</span>
                                   <button onClick={() => handleIncrement(item)} className="p-2 bg-gray-200 rounded-full">
                                     <FaPlus />
                                   </button>
@@ -152,7 +120,7 @@ export function StepperCard({ shippingPrice, setShippingPrice }) {
 
                               {/* Price */}
                               <h4 className="text-base font-bold text-gray-800">
-                                {item?.PRICE * item?.Cart_Quantity}
+                                {item?.PRICE * item?.PRODUCT_QUANTITY}
                               </h4>
                             </div>
                           </div>

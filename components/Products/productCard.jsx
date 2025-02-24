@@ -17,53 +17,92 @@ import { closeAlert, openAlert } from "@/GlobalRedux/Slices/alertCart";
 const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) => {
   const dispatch = useDispatch();
   // add to cart for large screen 
-  const handleAddToCart = async (productId, quantity) => {
-    try {
-      dispatch(addToCartStart());
-      const response = await AddToCart(productId, quantity, "cart/addtocart")
-      // console.log("response", response.data.product[0])
-      if (response.status == 200) {
-        dispatch(addToCart(response?.data.product[0]))
-        getAllCartItems()
-        dispatch(toggleDrawer())
+  // const handleAddToCart = async (productId, quantity) => {
+  //   try {
+  //     dispatch(addToCartStart());
+  //     const response = await AddToCart(productId, quantity, "cart/addtocart")
+  //     // console.log("response", response.data.product[0])
+  //     if (response.status == 200) {
+  //       dispatch(addToCart(response?.data.product[0]))
+  //       getAllCartItems()
+  //       dispatch(toggleDrawer())
        
-      }
-      else {
-        console.log(response?.message)
-        dispatch(addToCartFailure());
-      }
-    } catch (error) {
-      console.log("error", error)
-      dispatch(addToCartFailure());
+  //     }
+  //     else {
+  //       console.log(response?.message)
+  //       dispatch(addToCartFailure());
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error)
+  //     dispatch(addToCartFailure());
 
-    }
-  };
-  // add to cart for  mobile screen 
-  const handleAddToCartInSm = async (productId, quantity) => {
-    try {
-      dispatch(addToCartStart());
-      const response = await AddToCart(productId, quantity, "cart/addtocart")
-      // console.log("response", response.data.product[0])
-      if (response.status == 200) {
-        dispatch(addToCart(response?.data.product[0]))
-        alertShow()
+  //   }
+  // };
+  // // add to cart for  mobile screen 
+  // const handleAddToCartInSm = async (productId, quantity) => {
+  //   try {
+  //     dispatch(addToCartStart());
+  //     const response = await AddToCart(productId, quantity, "cart/addtocart")
+  //     // console.log("response", response.data.product[0])
+  //     if (response.status == 200) {
+  //       dispatch(addToCart(response?.data.product[0]))
+  //       alertShow()
        
-      }
-      else {
-        console.log(response?.message)
-        dispatch(addToCartFailure());
+  //     }
+  //     else {
+  //       console.log(response?.message)
+  //       dispatch(addToCartFailure());
 
-      }
-    } catch (error) {
-      console.log("error", error)
-      dispatch(addToCartFailure());
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error)
+  //     dispatch(addToCartFailure());
 
+  //   }
+  // };
+  const handleAddToCart = (cartItem) => {
+    let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+  
+    // Check if the item already exists in the cart
+    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+  
+    if (itemIndex !== -1) {
+      // If item exists, update quantity
+      existingCart[itemIndex].PRODUCT_QUANTITY += 1;
+    } else {
+      // If item does not exist, set initial quantity to 1 and add to cart
+      existingCart.push({ ...cartItem, PRODUCT_QUANTITY: 1 });
     }
+  
+    // Update Local Storage
+    localStorage.setItem("addCart", JSON.stringify(existingCart));
+  
+    // Open Drawer
+    dispatch(toggleDrawer());
   };
- 
+  const handleAddToCartInSm = (cartItem) => {
+    let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+  
+    // Check if the item already exists in the cart
+    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+  
+    if (itemIndex !== -1) {
+      // If item exists, update quantity
+      existingCart[itemIndex].PRODUCT_QUANTITY += 1;
+    } else {
+      // If item does not exist, set initial quantity to 1 and add to cart
+      existingCart.push({ ...cartItem, PRODUCT_QUANTITY: 1 });
+    }
+  
+    // Update Local Storage
+    localStorage.setItem("addCart", JSON.stringify(existingCart));
+    alertShow()
+    // Open Drawer
+    // dispatch(toggleDrawer());
+  };
+  
   return (
-      <Link href={`/products/${product.PRODUCT_ID}`}>
-      {/* <Link href={`/products/${product?.PRODUCT_NAME.replace(/\s+/g, "-")}-${product.PRODUCT_ID}`}> */}
+      // <Link href={`/products/${product.PRODUCT_ID}`}>
     <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all group">
       {/* Image Wrapper */}
       <div className="relative h-96 sm:h-full sm:w-full">
@@ -82,14 +121,14 @@ const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) =
             <Heart color="red" />
           </div>
           <div
-            onClick={() => handleAddToCart(product?.PRODUCT_ID, 1)}
+            onClick={() => handleAddToCart(product)}
             className="bg-blue-100 hover:bg-blue-200 w-12 h-9 hidden lg:flex items-center justify-center rounded cursor-pointer"
             title="Add to Cart"
           >
           {addToCartLoader ? <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>:  <ShoppingCart />}
           </div>
           <div
-            onClick={() => handleAddToCartInSm(product?.PRODUCT_ID, 1)}
+            onClick={() => handleAddToCartInSm(product)}
             className="bg-blue-100 hover:bg-blue-200 w-12 h-9 lg:hidden  flex items-center justify-center rounded cursor-pointer"
             title="Add to Cart"
           >
@@ -133,7 +172,7 @@ const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) =
       </div>
 
     </div>
-    </Link>
+    // </Link>
   );
 };
 
@@ -182,7 +221,7 @@ const ProductList = () => {
   }, []);
   const { allCartItem,} = useSelector((state) => state.cartItem)
   const {  cartLoader} = useSelector((state) => state.cart)
-  console.log("cart loader-->>", cartLoader)
+  // console.log("cart loader-->>", cartLoader)
   return (
     <div className="font-serif p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10">

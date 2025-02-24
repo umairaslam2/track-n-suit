@@ -1,6 +1,6 @@
 "use client"
 import CartDrawer from '@/components/Modals/cartDrawer'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { closeDrawer, openDrawer } from '@/GlobalRedux/Slices/drawerCart'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartItemStart, getCartItemSuccess } from '@/GlobalRedux/Slices/allCartItems'
@@ -11,25 +11,18 @@ const DrawerComp = () => {
     const drawerClose = () => dispatch(closeDrawer());
     const { allCartItem, isLoader } = useSelector((state) => state.cartItem)
     const cartStatus = useSelector((state) => state.drawercart.cartStatus);
-    // console.log("cart Status pass checking",cartStatus)
-      const getCartProducts = async () => {
-    const getSessionId = localStorage.getItem("sessionId")
-    try {
-      dispatch(getCartItemStart())
-      const response = await getCartItem("cart/getCart", getSessionId);
-      // console.log(" cart response-->>>", response)
-      dispatch(getCartItemSuccess(response))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  useEffect(()=>{
-    getCartProducts()
-  },[])
-    // console.log("all cart product data=--->>>>",allCartItem)
+    const [cartData, setCartData] = useState([]);
+
+    useEffect(() => {
+        if (cartStatus) { // Only update cart data when drawer is opened
+            const storedCart = JSON.parse(localStorage.getItem("addCart")) || [];
+            setCartData(storedCart);
+        }
+    }, [cartStatus]); 
+
   return (
     <>
-    <CartDrawer  openDrawer={cartStatus} closeDrawer={drawerClose} cartData={allCartItem}  loader={isLoader} />
+    <CartDrawer  openDrawer={cartStatus} closeDrawer={drawerClose} cartData={cartData} setCartData={setCartData}  loader={isLoader} />
     </>
   )
 }

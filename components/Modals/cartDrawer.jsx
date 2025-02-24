@@ -7,46 +7,37 @@ import Link from "next/link";
 import React from "react";
 import { FaMinus, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity }) => {
+const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, setCartData, cartQuantity }) => {
   const dispatch = useDispatch()
-  // edit cart quantity
-  const handleIncrement = async (item) => {
-    try {
-      const newQuantity = item.Cart_Quantity + 1;
-      let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
-      // console.log("response decrease -->>>",response) 
-      dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
+  // console.log("cart data ",cartData)
+  
+  const handleIncrement = (item) => {
+    let updatedCart = cartData.map(ele => 
+      ele.PRODUCT_ID === item.PRODUCT_ID
+        ? { ...ele, PRODUCT_QUANTITY: ele.PRODUCT_QUANTITY + 1 }
+        : ele
+    );
+  
+    setCartData(updatedCart); // ✅ Fixed variable name
+    localStorage.setItem("addCart", JSON.stringify(updatedCart));
   };
-  // edit cart quantity
-  const handleDecrement = async (item) => {
-    try {
-      if (item.Cart_Quantity > 1) {
-        const newQuantity = item.Cart_Quantity - 1;
-        let response = await EditCart(item.PRODUCT_ID, "cart/update", newQuantity);
-        // console.log("response decrease -->>>",response) 
-        dispatch(updateCart({ productId: item.PRODUCT_ID, quantity: newQuantity }));
-      }
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
+  const handleDecrement = (item) => {
+    let updatedCart = cartData.map(ele => 
+      ele.PRODUCT_ID === item.PRODUCT_ID
+        ? { ...ele, PRODUCT_QUANTITY: Math.max(ele.PRODUCT_QUANTITY - 1, 1) } // Prevents going below 1
+        : ele
+    );
+  
+    setCartData(updatedCart);
+    localStorage.setItem("addCart", JSON.stringify(updatedCart));
   };
-  // remove cart
-  const handleRemoveFromCart = async (id) => {
-    dispatch(deleteCart(id))
-    try {
-      if (response.status) {
-        const response = await DeleteCart(id, "cart/delete")
-        // console.log(response)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+  
+  const handleRemoveFromCart = (productId) => {
+    const updatedCart = cartData.filter((ele) => ele.PRODUCT_ID !== productId);
+    setCartData(updatedCart);
+    localStorage.setItem("addCart", JSON.stringify(updatedCart)); 
   };
-
-  return (
+   return (
     <Drawer
       placement="right"
       open={openDrawer}
@@ -93,7 +84,7 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
                     <button onClick={() => handleDecrement(item)} className="p-2 bg-gray-200 rounded-full">
                       <FaMinus />
                     </button>
-                    <span className="mx-2.5">{item.Cart_Quantity}</span>
+                    <span className="mx-2.5">{item.PRODUCT_QUANTITY}</span>
                     <button onClick={() => handleIncrement(item)} className="p-2 bg-gray-200 rounded-full">
                       <FaPlus />
                     </button>
@@ -104,15 +95,15 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
                 </div>
                 <div>
                   <Typography variant="small" className="py-3" color="blue-gray">
-                    {item?.PRODUCT_NAME.slice(0, 40)}..
+                    {item?.PRODUCT_NAME?.slice(0, 40)}..
                   </Typography>
                 </div>
                 <div className="flex justify-between">
                   <Typography variant="normal" className="text-md font-bold" color="gray">
-                    RS:{item?.PRICE * item?.Cart_Quantity}
+                    RS:{item?.PRICE * item?.PRODUCT_QUANTITY}
                   </Typography>
                   <Typography variant="small" className="text-sm font-bold" color="blue-gray">
-                    x{item?.Cart_Quantity}
+                    x{item?.PRODUCT_QUANTITY}
                   </Typography>
                 </div>
               </div>

@@ -180,9 +180,12 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
       </ul>
 
       {/* Buttons */}
-      <div className="mt-6 space-y-2">
-        <button onClick={onAddToCart} className="w-full border py-3 rounded-lg font-semibold">Add to cart</button>
-        <button className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold">Buy it now</button>
+      <div className="mt-6 space-y-2 hidden lg:flex ">
+        {/* <button onClick={onAddToCart} className="w-full border py-3 rounded-lg font-semibold" >Add to cart</button> */}
+        <button onClick={onAddToCart} className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold">Add To Cart</button>
+      </div>
+      <div className="mt-6 space-y-2 lg:hidden flex " >
+        <button onClick={onAddToCartInSm} className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold">Add To Cart</button>
       </div>
     </div>
 
