@@ -62,7 +62,8 @@ const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) =
   };
  
   return (
-      // <Link href={`/products/${product.PRODUCT_ID}`}>
+      <Link href={`/products/${product.PRODUCT_ID}`}>
+      {/* <Link href={`/products/${product?.PRODUCT_NAME.replace(/\s+/g, "-")}-${product.PRODUCT_ID}`}> */}
     <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all group">
       {/* Image Wrapper */}
       <div className="relative h-96 sm:h-full sm:w-full">
@@ -132,6 +133,7 @@ const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) =
       </div>
 
     </div>
+    </Link>
   );
 };
 

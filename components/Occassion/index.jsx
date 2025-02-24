@@ -7,7 +7,7 @@ const Occassion = () => {
 
         <span className='h-full w-full md:w-1/2 relative z-10'>
        
-            <img src="https://cdn.shopify.com/s/files/1/0773/8628/5348/files/Blue_Pink_Modern_Special_Offer_Sale_Banner_4.jpg?v=1735194561" className='h-full w-full  object-fit ' alt="" />
+            <img src="https://cdn.shopify.com/s/files/1/0773/8628/5348/files/Blue_Pink_Modern_Special_Offer_Sale_Banner_4.jpg?v=1735194561" className='h-full w-full  object-fit ' alt="image " />
         </span>
         <span className="relative z-10 bg-gray-900 w-full md:w-1/2 text-white h-96 md:h-full gap-4 justify-center items-center flex-col flex   ">
         <span className="bg-[url('/images/texture.jpeg')] absolute inset-0 opacity-50 bg-cover bg-center  h-full w-full"></span>

@@ -6,10 +6,9 @@ import { Button, Dialog, Drawer, IconButton, Typography } from "@material-tailwi
 import Link from "next/link";
 import React from "react";
 import { FaMinus, FaPlus, FaRegTrashAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity }) => {
   const dispatch = useDispatch()
-  // console.log("cart items",cartData)
   // edit cart quantity
   const handleIncrement = async (item) => {
     try {
@@ -21,7 +20,7 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
       console.error("Error updating quantity:", error);
     }
   };
-
+  // edit cart quantity
   const handleDecrement = async (item) => {
     try {
       if (item.Cart_Quantity > 1) {
@@ -36,14 +35,15 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
   };
   // remove cart
   const handleRemoveFromCart = async (id) => {
-    // console.log(id)
-    const response = await DeleteCart(id, "cart/delete")
-    console.log(response)
-    if(response.status){
-      dispatch(deleteCart(id))
-
+    dispatch(deleteCart(id))
+    try {
+      if (response.status) {
+        const response = await DeleteCart(id, "cart/delete")
+        // console.log(response)
+      }
+    } catch (error) {
+      console.log(error)
     }
-    // dispatch(removeFromCart(id)); 
   };
 
   return (
@@ -99,7 +99,7 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
                     </button>
                   </div>
                   <span>
-                    <FaRegTrashAlt onClick={() => handleRemoveFromCart(item?.PRODUCT_ID)} className="hover:cursor-pointer text-red-500" />
+                     <FaRegTrashAlt onClick={() => handleRemoveFromCart(item?.PRODUCT_ID)} className="hover:cursor-pointer text-red-500" />
                   </span>
                 </div>
                 <div>
@@ -109,7 +109,7 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
                 </div>
                 <div className="flex justify-between">
                   <Typography variant="normal" className="text-md font-bold" color="gray">
-                   RS:{item?.PRICE * item?.Cart_Quantity}
+                    RS:{item?.PRICE * item?.Cart_Quantity}
                   </Typography>
                   <Typography variant="small" className="text-sm font-bold" color="blue-gray">
                     x{item?.Cart_Quantity}
@@ -129,14 +129,14 @@ const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, cartQuantity })
       {/* Checkout Button */}
       {!loader && cartData?.length > 0 && (
         <div className="mt-6 flex gap-3 ">
-         
-          <Button variant="outlined" onClick={()=>{ dispatch(toggleDrawer())}}  className=" text-black" color="green">
+
+          <Button variant="outlined" onClick={() => { dispatch(toggleDrawer()) }} className=" text-black" color="green">
             Continue Shopping
           </Button>
           <Link href={'/addCart'}>
-          <Button onClick={()=>{ dispatch(toggleDrawer())}}   className="bg-black text-white" color="blue">
-            Proceed to Checkout
-          </Button>
+            <Button onClick={() => { dispatch(toggleDrawer()) }} className="bg-black text-white" color="blue">
+              Proceed to Checkout
+            </Button>
           </Link>
 
         </div>

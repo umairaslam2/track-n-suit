@@ -44,7 +44,6 @@ export const cartSlice = createSlice({
     // },
     deleteCart: (state, action) => {
       // console.log("Before delete, allCartItem:", state.allCartItem);
-  
       if (!Array.isArray(state.allCartItem)) {
           state.allCartItem.products = [];
       }
@@ -52,17 +51,11 @@ export const cartSlice = createSlice({
       if (!Array.isArray(state.allCartItem)) {
           state.allCartItem = [];
       }
-  
       // Mutate state directly instead of reassigning
       state.allCartItem = state.allCartItem.filter(
           (product) => product.PRODUCT_ID !== action.payload
       );
   
-      // state.allCartItem = state.allCartItem.cartItems.filter(
-      //     (cartItem) => cartItem.PRODUCT_ID !== action.payload
-      // );
-  
-      // console.log("After delete, allCartItem:", state.allCartItem);
   },
     
     updateCart: (state,action) => {

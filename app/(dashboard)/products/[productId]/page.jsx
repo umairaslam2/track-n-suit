@@ -9,11 +9,12 @@ const ProductDetails = async ({ params }) => {
     return parts[parts.length - 1]; // Get the last part as ID
   };
   const { productId } = params
- 
+  // const Id = extractId(productId);
+  // console.log("filter Id -->>",Id)
   const route = `products/get/${productId}`
   try {
     const response = await getSingleProducts(route)
-    // console.log(response)
+    console.log("single product fetch -->>>",response)
     return (
       <Suspense fallback={<ProductDetailSkeleton/>}>
       <DetailClient response = {response}/>
