@@ -17,14 +17,14 @@ const SingleOrderDetail = ({ response }) => {
   const [updateModal, setupdateModal] = useState(false);
   const [addStatus, setStatus] = useState("");
 
-  console.log(SingleOrder);
+  // console.log(SingleOrder);
 
   // Fetch Single Order Data
   const getSingleOrder = async () => {
     if (!response?.orderId) return; // Prevent API call if orderId is undefined
     try {
       const res = await getAllCartItem(`cart/admin/orders/${response.orderId}`);
-      console.log(res);
+      // console.log(res);
       setSingleOrder(res);
     } catch (error) {
       console.error("Error fetching order:", error);

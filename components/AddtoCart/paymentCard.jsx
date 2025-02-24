@@ -7,26 +7,29 @@ export function PaymentCard({shippingPrice, }) {
  // payment card
  const {allCartItem,isLoader} = useSelector((state)=> state.cartItem)
   //  console.log("get all cart item ", allCartItem)
-   const Comparetotal = allCartItem?.items?.reduce((acc, item)=> acc + (Number(item.productId.comparePrice|| 0)*item?.quantity),0)
-  //  console.log(Comparetotal)
-   const subtotal = allCartItem?.items?.reduce((acc, item)=> acc + (Number(item.productId.price|| 0)*item?.quantity),0)
-  //  console.log(subtotal)
-  //  const shipping = shippingPrice;
+   const Comparetotal = allCartItem?.reduce((acc, item)=> acc + (Number(item.COMPARE_PRICE|| 0)*item?.Cart_Quantity),0)
+  //  console.log("Comparetotal",Comparetotal)
+   const subtotal = allCartItem?.reduce((acc, item)=> acc + (Number(item.PRICE || 0)*item?.Cart_Quantity),0)
+  //  console.log("subtotal ",subtotal)
+   
+   //  const shipping = shippingPrice;
    const discount = Comparetotal - subtotal;
-   const total = subtotal + shippingPrice;
+    // console.log("discount ",discount)
 
+   const total = subtotal + shippingPrice;
+// console.log("total",total)
     const Paymentcard = [
     {
       name: " Price ",
-      price: allCartItem?.items?.length > 0 || null ? Comparetotal : 0
+      price: allCartItem?.length > 0 || null ? Comparetotal : 0
     },
     {
       name: "Discount",
-      price:  allCartItem?.items?.length > 0 || null ?  discount : 0
+      price:  allCartItem?.length > 0 || null ?  discount : 0
     },
     {
       name: " Total",
-      price:  allCartItem?.items?.length > 0 || null ? subtotal : 0
+      price:  allCartItem?.length > 0 || null ? subtotal : 0
     },
   //   {
   //     name: "Tax",
@@ -34,11 +37,11 @@ export function PaymentCard({shippingPrice, }) {
   //   },
     {
       name: "Shipping",
-      price: allCartItem?.items?.length > 0 || null ?  shippingPrice : 0 ,
+      price: allCartItem?.length > 0 || null ?  shippingPrice : 0 ,
     },
     {
       name: "Total",
-      price: allCartItem?.items?.length > 0 || null ? total.toFixed() :0,
+      price: allCartItem?.length > 0 || null ? total.toFixed() :0,
     },
   ];
   return (

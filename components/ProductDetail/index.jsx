@@ -142,8 +142,8 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
           src={url}
           alt="Product"
           // layout="responsive"
-          width={500}
-          height={500}
+          width={800}
+          height={800}
           className="w-full h-full object-contain"
         />
       </div>

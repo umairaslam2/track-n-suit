@@ -23,7 +23,7 @@ export const productSlice = createSlice({
 
     },
     updateProducts: (state,action) => {
-      console.log("action payload",action.payload.PRODUCT_ID)
+      // console.log("action payload",action.payload.PRODUCT_ID)
       const Index = state.allProducts.findIndex(product => product.PRODUCT_ID === action.payload.PRODUCT_ID);
       if(Index !== -1 ){
         state.allProducts[Index] = action.payload;

@@ -6,7 +6,7 @@ const AddToCart = () => {
   return (
    <Suspense fallback={<AddCartSkeleton/>} >
 
-    <span className='min-h[50vh] lg:max-w-6xl mx-auto'>
+    <span className='min-h[50vh] w-full bg-gray-200 pt-10 sm:pt-28 lg:max-w-6xl mx-auto'>
    <AddCart/>
     </span>
    </Suspense>

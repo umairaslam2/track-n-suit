@@ -97,8 +97,10 @@ const Header = () => {
         {/* Desktop Menu Left */}
         <ul className={`hidden md:flex space-x-8 lg:space-x-12 text-lg font-medium ${isFixed ? 'text-black' : 'text-white'}`}>
           {menuItemsLeft.map((item, index) => (
-            <Link href={item}>
-            <li key={index} className="hover:text-gray-500 capitalize cursor-pointer text-xl lg:text-2xl">
+            <Link href={item} key={index}>
+            <li 
+            // key={index}
+            className="hover:text-gray-500 capitalize cursor-pointer text-xl lg:text-2xl">
               {item}
             </li>
             </Link>
@@ -141,9 +143,9 @@ const Header = () => {
         </div>
         <ul className="p-4 space-y-4 text-lg font-medium">
           {menuItemsLeft.concat(menuItemsRight).map((item, index) => (
-            <Link href={item}>
+            <Link href={item} key={index}>
             <li
-              key={index}
+              // key={index}
               className="hover:text-gray-500 hover:cursor-pointer hover:bg-gray-600 capitalize cursor-pointer border-b border-gray-400 shadow-sm py-1"
               onClick={toggleMobileMenu}
             >
