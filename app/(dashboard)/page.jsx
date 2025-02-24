@@ -17,7 +17,7 @@ const HomePage = async () => {
         // return response
       } catch (error) {
         console.log(error.message || "Error fetching products");
-        return <p>Error loading products</p>;
+        return <p className='z-50 font-body text-xl  flex justify-center items-center '>Error loading products</p>;
       }
 
 

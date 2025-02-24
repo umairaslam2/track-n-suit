@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header />
           <DrawerComp/>
-          <main className="flex-grow w-screen  flex flex-col mx-auto">
+          <main className="flex-grow w-screen min-h-screen flex flex-col mx-auto">
           <AnimatePresence mode="wait">
             {children}
             </AnimatePresence>
