@@ -135,14 +135,13 @@ try {
 
 // add to cart post request 
 export const AddToCart = async (product_id, quantity, route) => {
-  const sessionId = getSessionId();
 
   const config = {
     url: URL + route,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "session-id" : sessionId,
+      // "session-id" : sessionId,
     },
     data: {
       product_id,
@@ -178,22 +177,21 @@ try {
 };
 
 // buy now 
-export const BuyNow = async (data, route) => {
-  const sessionId = getSessionId();
+export const addOrderProduct = async (data, route) => {
   const config = {
-    url: URL + route,
+    url: URL + route, // URL should be defined somewhere in your config
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "sessionId" : sessionId,
+      // You can optionally include sessionId in headers if needed
+      // "sessionId": sessionId,
     },
-    data: data
+    data: data,
   };
 
   try {
     const response = await axios.request(config);
-    return response
-    
+    return response;
   } catch (error) {
     console.error("API Error:", error);
     if (error.response) {

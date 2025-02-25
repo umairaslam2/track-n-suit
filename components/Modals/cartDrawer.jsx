@@ -9,34 +9,83 @@ import { FaMinus, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 const CartDrawer = ({ openDrawer, closeDrawer, cartData, loader, setCartData, cartQuantity }) => {
   const dispatch = useDispatch()
-  // console.log("cart data ",cartData)
-  
+  // console.log("cart data drawer",cartData)
   const handleIncrement = (item) => {
-    let updatedCart = cartData.map(ele => 
-      ele.PRODUCT_ID === item.PRODUCT_ID
-        ? { ...ele, PRODUCT_QUANTITY: ele.PRODUCT_QUANTITY + 1 }
-        : ele
+    const sessionId = localStorage.getItem("sessionID");
+    let allCarts = JSON.parse(localStorage.getItem("addCart")) || {}; 
+    // let sessionId = `session_${getSessionId}`;
+
+    if (!allCarts[sessionId]) {
+        allCarts[sessionId] = [];
+    }
+
+    let updatedCart = allCarts[sessionId].map(ele => 
+        ele.PRODUCT_ID === item.PRODUCT_ID
+            ? { ...ele, PRODUCT_QUANTITY: ele.PRODUCT_QUANTITY + 1 }
+            : ele
     );
-  
-    setCartData(updatedCart); // ✅ Fixed variable name
-    localStorage.setItem("addCart", JSON.stringify(updatedCart));
-  };
-  const handleDecrement = (item) => {
-    let updatedCart = cartData.map(ele => 
-      ele.PRODUCT_ID === item.PRODUCT_ID
-        ? { ...ele, PRODUCT_QUANTITY: Math.max(ele.PRODUCT_QUANTITY - 1, 1) } // Prevents going below 1
-        : ele
+
+    allCarts[sessionId] = updatedCart;
+    localStorage.setItem("addCart", JSON.stringify(allCarts));
+
+    // Ensure state updates properly
+    setCartData([...updatedCart]); 
+};
+
+
+const handleDecrement = (item) => {
+    const sessionId = localStorage.getItem("sessionID");
+    let allCarts = JSON.parse(localStorage.getItem("addCart")) || {};
+    // let sessionId = `session_${getSessionId}`;
+
+    if (!allCarts[sessionId]) {
+        allCarts[sessionId] = [];
+    }
+
+    let updatedCart = allCarts[sessionId].map(ele => 
+        ele.PRODUCT_ID === item.PRODUCT_ID
+            ? { ...ele, PRODUCT_QUANTITY: Math.max(ele.PRODUCT_QUANTITY - 1, 1) }
+            : ele
     );
-  
-    setCartData(updatedCart);
-    localStorage.setItem("addCart", JSON.stringify(updatedCart));
-  };
+
+    allCarts[sessionId] = updatedCart;
+    localStorage.setItem("addCart", JSON.stringify(allCarts));
+
+    // Ensure state updates properly
+    setCartData([...updatedCart]); 
+};
+
+
   
   const handleRemoveFromCart = (productId) => {
-    const updatedCart = cartData.filter((ele) => ele.PRODUCT_ID !== productId);
+    // Retrieve the entire cart object
+    let allCarts = JSON.parse(localStorage.getItem("addCart")) || {};
+    const getSessionId = localStorage.getItem("sessionID");
+  
+    // Get the current session's cart, or default to the existing cartData
+    let currentCart = allCarts[getSessionId] || cartData || [];
+  
+    // Remove the product with the given productId
+    const updatedCart = currentCart.filter(item => item.PRODUCT_ID !== productId);
+    console.log("updated", updatedCart);
+  
+    // Update the overall cart object: if the updated cart is empty, remove the session key
+    if (updatedCart.length === 0) {
+      delete allCarts[getSessionId];
+    } else {
+      allCarts[getSessionId] = updatedCart;
+    }
+  
+    // Update the UI state
     setCartData(updatedCart);
-    localStorage.setItem("addCart", JSON.stringify(updatedCart)); 
+  
+    // Save the updated overall cart back to local storage
+    localStorage.setItem("addCart", JSON.stringify(allCarts));
   };
+ 
+  
+  
+  
    return (
     <Drawer
       placement="right"

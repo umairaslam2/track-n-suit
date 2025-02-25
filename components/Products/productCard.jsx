@@ -16,55 +16,57 @@ import { closeAlert, openAlert } from "@/GlobalRedux/Slices/alertCart";
 // ProductCard Component (displays a single product)
 const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) => {
   const dispatch = useDispatch();
-  // add to cart for large screen 
-  // const handleAddToCart = async (productId, quantity) => {
-  //   try {
-  //     dispatch(addToCartStart());
-  //     const response = await AddToCart(productId, quantity, "cart/addtocart")
-  //     // console.log("response", response.data.product[0])
-  //     if (response.status == 200) {
-  //       dispatch(addToCart(response?.data.product[0]))
-  //       getAllCartItems()
-  //       dispatch(toggleDrawer())
-       
-  //     }
-  //     else {
-  //       console.log(response?.message)
-  //       dispatch(addToCartFailure());
-  //     }
-  //   } catch (error) {
-  //     console.log("error", error)
-  //     dispatch(addToCartFailure());
-
+  
+  // const handleAddToCart = (cartItem) => {
+  //   let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+  
+  //   // Check if the item already exists in the cart
+  //   let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+  
+  //   if (itemIndex !== -1) {
+  //     // If item exists, update quantity
+  //     existingCart[itemIndex].PRODUCT_QUANTITY += 1;
+  //   } else {
+  //     // If item does not exist, set initial quantity to 1 and add to cart
+  //     existingCart.push({ ...cartItem, PRODUCT_QUANTITY: 1 });
   //   }
-  // };
-  // // add to cart for  mobile screen 
-  // const handleAddToCartInSm = async (productId, quantity) => {
-  //   try {
-  //     dispatch(addToCartStart());
-  //     const response = await AddToCart(productId, quantity, "cart/addtocart")
-  //     // console.log("response", response.data.product[0])
-  //     if (response.status == 200) {
-  //       dispatch(addToCart(response?.data.product[0]))
-  //       alertShow()
-       
-  //     }
-  //     else {
-  //       console.log(response?.message)
-  //       dispatch(addToCartFailure());
-
-  //     }
-  //   } catch (error) {
-  //     console.log("error", error)
-  //     dispatch(addToCartFailure());
-
-  //   }
+  
+  //   // Update Local Storage
+  //   localStorage.setItem("addCart", JSON.stringify(existingCart));
+  
+  //   // Open Drawer
+  //   dispatch(toggleDrawer());
   // };
   const handleAddToCart = (cartItem) => {
-    let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
+    // Generate or get existing session ID
+    let sessionId = localStorage.getItem("sessionID");
+    if (!sessionId) {
+      sessionId = `session_${Date.now()}`; // Generate unique session ID
+      localStorage.setItem("sessionID", sessionId);
+    }
+  
+    // Get existing cart data from local storage based on session ID
+    let storedCart = localStorage.getItem("addCart");
+    let allCarts = {};
+  
+    try {
+      allCarts = JSON.parse(storedCart) || {};
+      // If stored data is an array, reset it to an object
+      if (Array.isArray(allCarts)) {
+        allCarts = {};
+      }
+    } catch (error) {
+      // If parsing fails, initialize as an empty object
+      allCarts = {};
+    }
+  
+    // Check if the session already has a cart, otherwise initialize it
+    let existingCart = allCarts[sessionId] || [];
   
     // Check if the item already exists in the cart
-    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
+    let itemIndex = existingCart.findIndex(
+      (item) => item.PRODUCT_ID === cartItem.PRODUCT_ID
+    );
   
     if (itemIndex !== -1) {
       // If item exists, update quantity
@@ -74,12 +76,14 @@ const ProductCard = ({ product ,getAllCartItems, alertShow, addToCartLoader }) =
       existingCart.push({ ...cartItem, PRODUCT_QUANTITY: 1 });
     }
   
-    // Update Local Storage
-    localStorage.setItem("addCart", JSON.stringify(existingCart));
+    // Update the cart in local storage for this session ID
+    allCarts[sessionId] = existingCart;
+    localStorage.setItem("addCart", JSON.stringify(allCarts));
   
-    // Open Drawer
+    // Open Drawer (assuming dispatch and toggleDrawer are defined)
     dispatch(toggleDrawer());
   };
+  
   const handleAddToCartInSm = (cartItem) => {
     let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
   

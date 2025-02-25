@@ -5,7 +5,7 @@ import ProductDetailSkeleton from './Detailloader';
 import { errorNotify } from '@/components/Toast';
 import { AddToCart,  getCartItem, getSingleProducts } from '@/API/response';
 import { addToCart } from '@/GlobalRedux/Slices/addToCart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { getCartItemStart, getCartItemSuccess } from '@/GlobalRedux/Slices/allCartItems';
 import { toggleDrawer } from '@/GlobalRedux/Slices/drawerCart';
@@ -28,8 +28,6 @@ const ProductDetails = ({ response }) => {
     }
   }
 
-
-
   const getSingleProduct = async() => {
     try {
       // const route = `products/${Id}`
@@ -50,25 +48,53 @@ const ProductDetails = ({ response }) => {
     }
   // add to cart 
   const handleAddToCart = (cartItem, quantity) => {
-    let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
-
-    // Check if the item already exists in the cart
-    let itemIndex = existingCart.findIndex(item => item.PRODUCT_ID === cartItem.PRODUCT_ID);
-
-    if (itemIndex !== -1) {
-        // If item exists, update quantity based on user input
-        existingCart[itemIndex].PRODUCT_QUANTITY += quantity;
-    } else {
-        // If item does not exist, set quantity to the user-selected value
-        existingCart.push({ ...cartItem, PRODUCT_QUANTITY: quantity });
+    // Generate or get existing session ID
+    let sessionId = localStorage.getItem("sessionID");
+    if (!sessionId) {
+      sessionId = `session_${Date.now()}`; // Generate unique session ID
+      localStorage.setItem("sessionID", sessionId);
     }
-
-    // Update Local Storage
-    localStorage.setItem("addCart", JSON.stringify(existingCart));
-
-    // Open Drawer
+  
+    // Get existing cart data from local storage based on session ID
+    let storedCart = localStorage.getItem("addCart");
+    let allCarts = {};
+  
+    try {
+      allCarts = JSON.parse(storedCart) || {};
+      // If stored data is an array, reset it to an object
+      if (Array.isArray(allCarts)) {
+        allCarts = {};
+      }
+    } catch (error) {
+      // If parsing fails, initialize as an empty object
+      allCarts = {};
+    }
+  
+    // Check if the session already has a cart, otherwise initialize it
+    let existingCart = allCarts[sessionId] || [];
+  
+    // Check if the item already exists in the cart
+    let itemIndex = existingCart.findIndex(
+      (item) => item.PRODUCT_ID === cartItem.PRODUCT_ID
+    );
+  
+    if (itemIndex !== -1) {
+      // If item exists, update quantity
+      existingCart[itemIndex].PRODUCT_QUANTITY += quantity;
+    } else {
+      // If item does not exist, set initial quantity to 1 and add to cart
+      existingCart.push({ ...cartItem, PRODUCT_QUANTITY: quantity });
+    }
+  
+    // Update the cart in local storage for this session ID
+    allCarts[sessionId] = existingCart;
+    localStorage.setItem("addCart", JSON.stringify(allCarts));
+  
+    // Open Drawer (assuming dispatch and toggleDrawer are defined)
     dispatch(toggleDrawer());
-};
+    setCount(1)
+  };
+  
 
      const handleAddToCartInSm = async (cartItem, quantity) => {
       let existingCart = JSON.parse(localStorage.getItem("addCart")) || [];
@@ -91,6 +117,18 @@ const ProductDetails = ({ response }) => {
   useEffect(()=>{
     getSingleProduct()
   },[])
+  const cartStatus = useSelector((state) => state.drawercart.cartStatus);
+  const [cartData, setCartData] = useState([]);
+  const getSessionId = localStorage.getItem("sessionID")
+   useEffect(() => {
+        if (cartStatus) { // Only update cart data when drawer is opened
+        let allCarts = JSON.parse(localStorage.getItem("addCart")) || {};
+        let currentCart = allCarts[getSessionId] || [];
+          setCartData(currentCart);
+        console.log("cartData data-->>>>",cartData)
+           
+          }
+      }, [cartStatus]);
 
   return (
     <>

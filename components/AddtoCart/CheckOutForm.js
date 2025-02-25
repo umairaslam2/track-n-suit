@@ -2,94 +2,79 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Button } from '@material-tailwind/react';
-import React  from 'react';
-import { BuyNow, emailNotify } from '@/API/response';
+import React, { useEffect, useState }  from 'react';
+import { addOrderProduct, BuyNow, emailNotify } from '@/API/response';
 import { errorNotify, successNotify } from '../Toast';
 import { ToastContainer } from "react-toastify";
 import { useDispatch, } from 'react-redux';
-import { clearCartItems } from '@/GlobalRedux/Slices/allCartItems';
 // import { useCountries } from "use-react-countries";
 const CheckOutForm = ({shippingPrice, setShippingPrice}) => {
   const dispatch = useDispatch()
-  // const cartItems = useSelector((state) => state.cart.items);
-  // console.log(cartItems)
-  // const { countries } = useCountries();
-  // console.log("countries",countries)
+  const [cartData, setCartData] = useState([]);
+ 
   const initialValues = {
-    customerName: '',
-    customerEmail: '',
-    customerPhone: '',
-    shippingAddress: '',
-    shippingCity: '',
-    // shippingZipCode: '',
-    shippingCountry: 'Pakistan',
-    // address: '',
-    shippingMethod: 'Standard',
+    customer_name: '',
+    customer_email: '',
+    customer_phone: '',
+    shipping_address: '',
+    shipping_city: '',
+    shipping_country: 'Pakistan',
+    shipping_method: 'Standard',
+    shipping_zip_code:"75800"
   };
 
   const validationSchema = Yup.object({
-    customerName: Yup.string().required('Customer Name is required'),
-    customerEmail: Yup.string().email('Invalid email format').required('Email is required'),
-    customerPhone: Yup.string() .matches(/^[0-9]+$/, 'Must be a number')
+    customer_name: Yup.string().required('Customer Name is required'),
+    customer_email: Yup.string().email('Invalid email format').required('Email is required'),
+    customer_phone: Yup.string() .matches(/^[0-9]+$/, 'Must be a number')
     .min(10, 'Phone number must be at least 10 digits')
     .max(13, 'Phone number must not exceed 13 digits')
     .required('Phone Number is required'),
-    shippingAddress: Yup.string().required('Address is required'),
+    shipping_address: Yup.string().required('Address is required'),
     // address: Yup.string().required('Address is required'),
-    shippingCity: Yup.string().required('City is required'),
+    shipping_city: Yup.string().required('City is required'),
     // shippingZipCode: Yup.string().matches(/^[0-9]+$/, 'Must be a number').required('Zip Code is required'),
-    shippingCountry: Yup.string().required('Country is required')
+    shipping_country: Yup.string().required('Country is required')
   });
  
- 
-  const handleSubmit = async(values,{resetForm}) => {
-    // console.log('Form Submitted:', values);
-    const mappedValues = {
-      ...values,
-      shippingPrice: shippingPrice,
-      shippingDetails: {
-        address: values.address,
-        city: values.shippingCity,
-        zipCode: values.shippingZipCode,
-        country: values.shippingCountry,
-      },
-    };
-    
-    try {
-      const response = await BuyNow(mappedValues, "cart/buyNow")
-      // console.log("response",response)
-      if(response.status){
-        const { orderId, totalAmount, customerEmail,items } = response.data.order;
-        // console.log(orderId,
-        //   totalAmount,
-        //   customerEmail,
-        //   items
-        //   )
-          try {
-            const res = await emailNotify({
-              orderId: orderId,
-              totalAmount: totalAmount,
-              email:customerEmail,
-              item:items
-            },"sendOrderConfirmation")
-            // console.log("Email sent ",res)
-            
-          } catch (error) {
-            console.log(error)
-          }
+  const getSessionId = localStorage.getItem("sessionID")
+  useEffect(() => {
+    let allCarts = JSON.parse(localStorage.getItem("addCart")) || {};
+    let currentCart = allCarts[getSessionId] || [];
+    setCartData(currentCart);
+    // console.log("cartData data-->>>>",cartData)
        
-      dispatch(clearCartItems())
-      successNotify(response?.data?.message)
-      resetForm()
+  }, []); 
+  
+  const handleSubmit = async(values,{resetForm}) => {
+      //  console.log("cart data on API ",cartData)
+    let sessionId = localStorage.getItem("sessionID");
+    console.log('Form Submitted:', values);
+      const payload = {
+        session_id: sessionId, // Ensure getSessionId() returns a valid session ID
+         products: cartData.map(item => ({
+          product_id: item.PRODUCT_ID,
+          product_quantity: item.PRODUCT_QUANTITY,
+         })),
+         customer_name : values.customer_name,
+         customer_email : values.customer_email,
+         customer_phone : values.customer_phone,
+         shipping_address : values.shipping_address,
+         shipping_city : values.shipping_city,
+         shipping_country : values.shipping_country,
+         shipping_method : values.shipping_method,
+         shipping_zip_code : values.shipping_zip_code,
 
-
-      }else {
-        errorNotify(response?.error)
-      }
-
-    } catch (error) {
-      console.log("error",error)
-    }
+       };
+     
+       try {
+         const res = await addOrderProduct(payload, "order/checkout");
+         console.log("Cart added to API successfully:", res.data);
+         resetForm()
+       } catch (error) {
+         console.error("Error adding cart on API:", error);
+       }
+    
   };
 // zip code ,address optional , 
   return (
@@ -102,91 +87,81 @@ const CheckOutForm = ({shippingPrice, setShippingPrice}) => {
         <Form className="grid gap-4">
           <div className="relative mb-4">
             <Field
-              name="customerName"
+              name="customer_name"
               type="text"
               placeholder="Customer Name"
-              className={`block w-full p-2 border-b-2 ${errors.customerName && touched.customerName ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.customer_name && touched.customer_name ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="customerName" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="customer_name" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div className="relative mb-4">
             <Field
-              name="customerEmail"
+              name="customer_email"
               type="email"
               placeholder="Email"
-              className={`block w-full p-2 border-b-2 ${errors.customerEmail && touched.customerEmail ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.customer_email && touched.customer_email ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="customerEmail" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="customer_email" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div className="relative mb-4">
             <Field
-              name="customerPhone"
+              name="customer_phone"
               type="number"
               placeholder="Phone Number"
-              className={`block w-full p-2 border-b-2 ${errors.customerPhone && touched.customerPhone ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.customer_phone && touched.customer_phone ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="customerPhone" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="customer_phone" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div className="relative mb-4">
             <Field
-              name="shippingAddress"
+              name="shipping_address"
               type="text"
               placeholder="Shipping Address"
-              className={`block w-full p-2 border-b-2 ${errors.shippingAddress && touched.shippingAddress ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.shipping_address && touched.shipping_address ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="shippingAddress" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="shipping_address" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div className="relative mb-4">
             <Field
-              name="address"
-              type="text"
-              placeholder="Appartment , Suits, near by location or Famous location "
-              className={`block w-full p-2 border-b-2 ${errors.address && touched.address ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            <ErrorMessage name="address" component="div" className="text-red-500 text-sm mt-1" />
-          </div>
-
-          <div className="relative mb-4">
-            <Field
-              name="shippingCity"
+              name="shipping_city"
               type="text"
               placeholder="City"
-              className={`block w-full p-2 border-b-2 ${errors.shippingCity && touched.shippingCity ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.shipping_city && touched.shipping_city ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="shippingCity" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="shipping_city" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div className="relative mb-4">
             <Field
-              name="shippingZipCode"
+              name="shipping_zip_code"
               type="text"
               placeholder="Zip Code"
-              className={`block w-full p-2 border-b-2 ${errors.shippingZipCode && touched.shippingZipCode ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.shipping_zip_code && touched.shipping_zip_code ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="shippingZipCode" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="shipping_zip_code" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
           <div className="relative mb-4">
             <Field
-              name="shippingCountry"
+              name="shipping_country"
               readOnly
               type="text"
               placeholder="Country"
-              className={`block w-full p-2 border-b-2 ${errors.shippingCountry && touched.shippingCountry ? 'border-red-500' : 'border-gray-300'}`}
+              className={`block w-full p-2 border-b-2 ${errors.shipping_country && touched.shipping_country ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <ErrorMessage name="shippingCountry" component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="shipping_country" component="div" className="text-red-500 text-sm mt-1" />
           </div>
 
-          <div className="relative mb-4">
+          <div className="relative mb-4"> 
             <Field
-              name="shippingMethod"
+              name="shipping_method"
               as="select"
               onChange={(e) => {
                 const selectedMethod = e.target.value;
-                setFieldValue('shippingMethod', selectedMethod);
+                setFieldValue('shipping_method', selectedMethod);
                 setShippingPrice(selectedMethod === 'Standard' ? 200 : 350);
               }}
               className="block w-full p-2 border-b-2 border-gray-300"
@@ -195,19 +170,6 @@ const CheckOutForm = ({shippingPrice, setShippingPrice}) => {
               <option value="Express">Express 350 PKR</option>
             </Field>
           </div>
-          {/* <div className="relative mb-4">
-            <Field
-              name="shippingPrice"
-              value={`Shipping Price: ${shippingPrice} PKR`}
-              id="shippingPrice"
-              type="number"
-              readOnly
-              // disabled
-              placeholder="Shipping Price"
-              className={`block w-full p-2 border-b-2 border-gray-300 bg-gray-100`}
-            />
-            <ErrorMessage name="shippingPrice" component="div" className="text-red-500 text-sm mt-1" />
-          </div> */}
 
           <Button type="submit" className="w-full text-white">
             Submit

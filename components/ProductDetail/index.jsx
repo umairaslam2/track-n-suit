@@ -40,17 +40,7 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
   let discount = ((comparePrice - price) / comparePrice) * 100
   let result = Math.round(discount)
 
-  const getCartProducts = async () => {
-    const getSessionId = localStorage.getItem("sessionId")
-    try {
-      dispatch(getCartItemStart())
-      const response = await getCartItem("cart/getCart", getSessionId);
-      console.log("cart response ", response)
-      dispatch(getCartItemSuccess(response))
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  
   // get all products 
   const getAllProduct = async () => {
     // const route = `products?category=${category}`;  
@@ -131,7 +121,6 @@ export function ProductDetail({ title, image, url, price, description, allFile, 
   
   useEffect(() => {
     getAllProduct()
-    getCartProducts()
   }, [])
   return (
     <div className="container w-full mx-auto px-2 sm:px-4 pt-28  py-10 md:py-16 md:mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">

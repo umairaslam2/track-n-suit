@@ -1,4 +1,5 @@
 "use client";
+import { addToCart_product } from "@/API/response";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,17 +7,18 @@ import { useSelector } from "react-redux";
 export function PaymentCard({shippingPrice, }) {
   // console.log(shippingPrice)
   const [cartData, setCartData] = useState([]);
+  const getSessionId = localStorage.getItem("sessionID")
     useEffect(() => {
-      const storedCart = JSON.parse(localStorage.getItem("addCart")) || [];
-      setCartData(storedCart);
+      let allCarts = JSON.parse(localStorage.getItem("addCart")) || {};
+      let currentCart = allCarts[getSessionId] || [];
+      setCartData(currentCart);
+      // console.log("cartData data-->>>>",cartData)
     }, []); 
- // payment card
- const {allCartItem,isLoader} = useSelector((state)=> state.cartItem)
-  //  console.log("get all cart item ", allCartItem)
+   
    const Comparetotal = cartData?.reduce((acc, item)=> acc + (Number(item.COMPARE_PRICE|| 0)*item?.PRODUCT_QUANTITY),0)
-   console.log("Comparetotal",Comparetotal)
+  //  console.log("Comparetotal",Comparetotal)
    const subtotal = cartData?.reduce((acc, item)=> acc + (Number(item.PRICE || 0)*item?.PRODUCT_QUANTITY),0)
-   console.log("subtotal ",subtotal)
+  //  console.log("subtotal ",subtotal)
    
    //  const shipping = shippingPrice;
    const discount = Comparetotal - subtotal;
@@ -73,6 +75,7 @@ export function PaymentCard({shippingPrice, }) {
                 <Typography variant="h6" color="blue-gray" className="text-lg font-bold text-center">
                   Grand Total: Rs.{price}
                 </Typography>
+              
               </div>:
               <>
               <Typography variant="body1" color="blue-gray" className="text-lg">
